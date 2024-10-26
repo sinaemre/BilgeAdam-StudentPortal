@@ -14,7 +14,7 @@ namespace DataAccess.Context.ApplicationContext
         static AppDbContext()
         {
             //Sizin yerel saatinizle uyumlu çalışarak, saat hatası vermeyi önler
-            AppContext.SetSwitch("Npgsql.EnableLagacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

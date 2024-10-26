@@ -11,13 +11,13 @@ namespace ApplicationCore.UserEntites.Concrete
 {
     public class AppUser : IdentityUser<Guid>
     {
-        private DateTime _createdDate = DateTime.Now;
+        private DateTime _createdDate = DateTime.UtcNow;
         private Status _status = Status.Active;
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         
-        [Column("date")]
+        [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
      
         public DateTime CreatedDate { get => _createdDate; set => _createdDate = value; }

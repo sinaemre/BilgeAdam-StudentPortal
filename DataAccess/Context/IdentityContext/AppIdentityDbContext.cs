@@ -15,7 +15,7 @@ namespace DataAccess.Context.IdentityContext
         static AppIdentityDbContext()
         {
             //Sizin yerel saatinizle uyumlu çalışarak, saat hatası vermeyi önler
-            AppContext.SetSwitch("Npgsql.EnableLagacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
         {
@@ -24,6 +24,7 @@ namespace DataAccess.Context.IdentityContext
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
             builder.ApplyConfiguration(new UserSeedData());
             builder.ApplyConfiguration(new RoleSeedData());
             builder.ApplyConfiguration(new UserRoleSeedData());

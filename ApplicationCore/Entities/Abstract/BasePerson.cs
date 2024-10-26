@@ -28,7 +28,7 @@ namespace ApplicationCore.Entities.Abstract
         public string Email { get; set; }
 
         [Required]
-        [Column("date")]
+        [Column(TypeName = "date")]
         public DateTime BirthDate { get; set; }
     }
 }

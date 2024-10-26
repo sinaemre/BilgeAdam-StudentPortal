@@ -1,7 +1,45 @@
+using ApplicationCore.UserEntites.Concrete;
+using DataAccess.Context.ApplicationContext;
+using DataAccess.Context.IdentityContext;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var entityDbConnection = builder.Configuration.GetConnectionString("EntityDbConnection");
+var identityDbConnection = builder.Configuration.GetConnectionString("IdentityDbConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(entityDbConnection);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+{
+    options.UseNpgsql(identityDbConnection);
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+
+builder.Services.AddIdentity<AppUser, AppRole>(x =>
+{
+    x.SignIn.RequireConfirmedPhoneNumber = false;
+    x.SignIn.RequireConfirmedEmail = false;
+    x.SignIn.RequireConfirmedAccount = false;
+    x.User.RequireUniqueEmail = true;
+    x.Password.RequiredLength = 3;
+    x.Password.RequiredUniqueChars = 0;
+    x.Password.RequireNonAlphanumeric = false;
+    x.Password.RequireUppercase = false;
+    x.Password.RequireLowercase = false;
+    x.Lockout.MaxFailedAccessAttempts = 5; //Þifreyi 5 kere yanlýþ girerse
+    x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); //5 dakika boyunca hesabýný kitle
+})
+    .AddEntityFrameworkStores<AppIdentityDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -18,6 +56,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

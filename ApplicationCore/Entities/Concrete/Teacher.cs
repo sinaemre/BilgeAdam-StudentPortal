@@ -12,7 +12,7 @@ namespace ApplicationCore.Entities.Concrete
     public class Teacher : BasePerson
     {
         [Required]
-        [Column("date")]
+        [Column(TypeName = "date")]
         public DateTime HireDate { get; set; }
 
         [Required]

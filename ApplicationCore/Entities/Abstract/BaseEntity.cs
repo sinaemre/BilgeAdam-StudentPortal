@@ -9,7 +9,7 @@ namespace ApplicationCore.Entities.Abstract
 {
     public abstract class BaseEntity
     {
-        private DateTime _createdDate = DateTime.Now;
+        private DateTime _createdDate = DateTime.UtcNow;
         private Status _status = Status.Active;
 
         public Guid Id { get; set; }

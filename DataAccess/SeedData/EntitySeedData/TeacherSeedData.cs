@@ -23,7 +23,8 @@ namespace DataAccess.SeedData.EntitySeedData
                         BirthDate = new DateTime(1996, 01, 23),
                         Email = "sinaemre.bekar@bilgeadam.com",
                         HireDate = new DateTime(2022, 06, 20),
-                        AppUserId = Guid.Parse("f2d17592-2c75-4a38-a8db-07e13fc4778f")
+                        AppUserId = Guid.Parse("f2d17592-2c75-4a38-a8db-07e13fc4778f"),
+                        CourseId = Guid.Parse("a1c775f9-0097-4dec-ab1e-9437a81beaff")
                     }
                 );
         }
