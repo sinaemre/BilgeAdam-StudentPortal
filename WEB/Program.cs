@@ -1,10 +1,19 @@
 using ApplicationCore.UserEntites.Concrete;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Context.IdentityContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WEB.Autofac;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+            .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule(new AutofacModule());
+            });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -58,6 +67,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

@@ -1,0 +1,9 @@
+﻿
+1) Migration Ekleme Komutu
+	add-migration Init -context AppDbContext -o Context\ApplicationContext\Migrations
+
+	add-migration Init -context AppIdentityDbContext -o Context\IdentityContext\Migrations
+
+2) Update Komutu
+	update-database -context AppDbContext
+	update-database -context AppIdentityDbContext
