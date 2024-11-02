@@ -32,7 +32,7 @@ namespace DataAccess.Services.Concrete
 
         public async Task<bool> UpdateAsync(T entity)
         {
-            entity.UpdatedDate = DateTime.UtcNow;
+            entity.UpdatedDate = DateTime.Now;
             entity.Status = Status.Modified;
             _table.Update(entity);
             return await SaveAsync();
@@ -40,7 +40,7 @@ namespace DataAccess.Services.Concrete
 
         public async Task<bool> DeleteAsync(T entity)
         {
-            entity.DeletedDate = DateTime.UtcNow;
+            entity.DeletedDate = DateTime.Now;
             entity.Status = Status.Passive;
             _table.Update(entity);
             return await SaveAsync();

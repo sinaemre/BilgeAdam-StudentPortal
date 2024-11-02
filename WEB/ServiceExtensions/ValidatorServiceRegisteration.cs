@@ -9,6 +9,7 @@ namespace WEB.ServiceExtensions
         public static void AddValidators(this IServiceCollection services)
         {
             services.AddValidatorsFromAssemblyContaining<CreateTeacherValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdateTeacherValidator>();
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
         }

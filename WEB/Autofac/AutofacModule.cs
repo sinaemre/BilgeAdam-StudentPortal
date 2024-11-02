@@ -26,8 +26,10 @@ namespace WEB.Autofac
             var mappingconfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new TeacherMapping());
+                mc.AddProfile(new CourseMapping());
 
                 mc.AddProfile(new TeacherBusinessMapping());
+                mc.AddProfile(new CourseBusinessMapping());
             });
 
             IMapper mapper = mappingconfig.CreateMapper();

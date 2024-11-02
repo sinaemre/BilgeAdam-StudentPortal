@@ -13,7 +13,9 @@ namespace Business.AutoMapper
     {
         public TeacherBusinessMapping()
         {
-            CreateMap<Teacher, CreateTeacherDTO>().ReverseMap();
+            CreateMap<GetTeacherDTO, Teacher>().ReverseMap();
+            CreateMap<CreateTeacherDTO, Teacher>().ReverseMap();
+            CreateMap<UpdateTeacherDTO, Teacher>().ReverseMap();
         }
     }
 }

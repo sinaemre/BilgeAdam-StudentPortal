@@ -9,6 +9,7 @@ namespace WEB.AutoMapper
         public TeacherMapping()
         {
             CreateMap<CreateTeacherDTO, CreateTeacherVM>().ReverseMap();
+            CreateMap<UpdateTeacherDTO, UpdateTeacherVM>().ReverseMap();
         }
     }
 }
