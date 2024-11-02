@@ -1,9 +1,11 @@
 ﻿using Autofac;
 using AutoMapper;
+using Business.AutoMapper;
 using Business.Manager.Concrete;
 using Business.Manager.Interface;
 using DataAccess.Services.Concrete;
 using DataAccess.Services.Interface;
+using WEB.AutoMapper;
 
 namespace WEB.Autofac
 {
@@ -23,7 +25,9 @@ namespace WEB.Autofac
 
             var mappingconfig = new MapperConfiguration(mc =>
             {
+                mc.AddProfile(new TeacherMapping());
 
+                mc.AddProfile(new TeacherBusinessMapping());
             });
 
             IMapper mapper = mappingconfig.CreateMapper();

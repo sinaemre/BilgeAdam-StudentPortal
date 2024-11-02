@@ -3,9 +3,13 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Context.IdentityContext;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WEB.Autofac;
+using WEB.FluentValidation.TeacherValidators;
+using WEB.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,8 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 builder.RegisterModule(new AutofacModule());
             });
 
+
+builder.Services.AddValidators();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
