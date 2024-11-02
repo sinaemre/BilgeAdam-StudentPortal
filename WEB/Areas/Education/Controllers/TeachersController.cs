@@ -78,7 +78,7 @@ namespace WEB.Areas.Education.Controllers
                 if (result)
                 {
                     TempData["Success"] = $"{model.FirstName} {model.LastName} eğitmeni sisteme kaydedilmiştir!";
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
 
                 TempData["Error"] = "Eğitmen sisteme kaydedilemedi!";
@@ -96,7 +96,7 @@ namespace WEB.Areas.Education.Controllers
             if (!guidResult)
             {
                 TempData["Error"] = "Eğitmen bulunamadı!";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
 
             var dto = await _teacherManager.GetByIdAsync<UpdateTeacherDTO>(entityId);
@@ -112,7 +112,7 @@ namespace WEB.Areas.Education.Controllers
             }
 
             TempData["Error"] = "Eğitmen bulunamadı!";
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost, ValidateAntiForgeryToken]
@@ -131,7 +131,7 @@ namespace WEB.Areas.Education.Controllers
                 if (result)
                 {
                     TempData["Success"] = "Eğitmen güncellendi!";
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 TempData["Error"] = "Eğitmen güncellenemedi!";
                 return View(model);
@@ -147,7 +147,7 @@ namespace WEB.Areas.Education.Controllers
             if (!guidResult)
             {
                 TempData["Error"] = "Eğitmen bulunamadı!";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             var dto = await _teacherManager.GetByIdAsync<GetTeacherDTO>(entityId);
 
@@ -157,13 +157,13 @@ namespace WEB.Areas.Education.Controllers
                 if (result)
                 {
                     TempData["Success"] = "Eğitmen silinmiştir!";
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 TempData["Error"] = "Eğitmen silinememiştir!";
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
             TempData["Error"] = "Eğitmen bulunamamıştır!";
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

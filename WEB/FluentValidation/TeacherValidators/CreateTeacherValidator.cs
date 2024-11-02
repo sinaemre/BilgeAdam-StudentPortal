@@ -18,7 +18,7 @@ namespace WEB.FluentValidation.TeacherValidators
                 .MinimumLength(2)
                 .WithMessage("En az 2 karakter girmelisiniz!")
                 .Matches(regex)
-                .WithMessage("Sadece harf, boşluk ve '-' girebilirsiniz!");
+                .WithMessage("Sadece harf, boşluk ve ' - ' girebilirsiniz!");
 
             RuleFor(x => x.LastName)
                 .NotEmpty()

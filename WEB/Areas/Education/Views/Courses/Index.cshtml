@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model List<GetCourseVM>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kurslar</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kurs</th>
+                                <th>Durum</th>
+                                <th>Eklenme Tarihi</th>
+                                <th>Güncellenme Tarihi</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in Model)
+                            {
+                                <tr>
+                                    <td>@course.Name</td>
+                                    <td>@course.Status</td>
+                                    <td>@course.CreatedDate</td>
+                                    <td>@course.UpdatedDate</td>
+                                    <td>
+                                        <a asp-action="UpdateCourse" asp-route-id="@course.Id" class="btn btn-outline-primary">Güncelle</a>
+                                    </td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@course.Id">
+                                            Sil
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal-@course.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı!</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @course.Name kursunu silmek istediğinize emin misiniz?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                        <a asp-action="DeleteCourse" asp-route-id="@course.Id" class="btn btn-danger">Evet</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-dark d-block" asp-action="CreateCourse">Yeni Kurs Ekle</a>
+            </div>
+        </div>
+    </div>
+</div>
