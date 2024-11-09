@@ -5,3 +5,9 @@
 setTimeout(() => {
     $(".notification").fadeOut("slow")
 }, 3000)
+
+$("#uploadStudentImage").on("change", function () {
+    if (this.files && this.files[0]) {
+        $("#imageStudent").attr("src", URL.createObjectURL(this.files[0]))
+    }
+})

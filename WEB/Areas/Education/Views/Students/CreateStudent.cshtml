@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Create Student";
+}
+@model CreateStudentVM
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Yeni Öğrenci Ekle</h3>
+            </div>
+            <form asp-action="CreateStudent" enctype="multipart/form-data">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="mx-2">
+                            <label asp-for="Image"></label>
+                            <input id="uploadStudentImage" asp-for="Image" class="form-control" />
+                            <span asp-validation-for="Image" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <img id="imageStudent" width="200" height="150" class="rounded-circle justify-content-center" src="~/img/noimage.png" />
+                        </div>
+                    </div>
+                    <div>
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="BirthDate" class="form-label"></label>
+                        <input type="date" asp-for="BirthDate" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="ClassroomId" class="form-label"></label>
+                        <select asp-items="@Model.Classrooms" asp-for="ClassroomId" class="form-control">
+                            <option disabled selected value="0">Lütfen sınıf seçiniz!</option>
+                        </select>
+                        <span asp-validation-for="ClassroomId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px;">
+                    <a class="btn btn-outline-dark" asp-action="Index">Geri Dön</a>
+                    <button type="submit" class="btn btn-outline-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

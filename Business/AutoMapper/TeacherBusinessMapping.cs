@@ -13,7 +13,9 @@ namespace Business.AutoMapper
     {
         public TeacherBusinessMapping()
         {
-            CreateMap<GetTeacherDTO, Teacher>().ReverseMap();
+            CreateMap<Teacher, GetTeacherForSelectListDTO>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+                .ReverseMap();
             CreateMap<CreateTeacherDTO, Teacher>().ReverseMap();
             CreateMap<UpdateTeacherDTO, Teacher>().ReverseMap();
         }

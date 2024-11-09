@@ -1,24 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
-@model List<GetTeacherVM>
+@model List<GetStudentVM>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Eğitmenler</h3>
+                <h3 class="card-title">Öğrenciler</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Eğitmen</th>
+                                <th>Öğrenci</th>
                                 <th>Email</th>
                                 <th>Doğum Tarihi</th>
-                                <th>Kurs</th>
-                                <th>İşe Giriş Tarihi</th>
+                                <th>Sınıf</th>
+                                <th>Eğitmen</th>
+                                <th>Ortalama</th>
+                                <th>Eğitim Durumu</th>
                                 <th>Durum</th>
                                 <th>Eklenme Tarihi</th>
                                 <th>Güncellenme Tarihi</th>
@@ -27,28 +29,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var teacher in Model)
+                            @foreach (var student in Model)
                             {
                                 <tr>
-                                    <td>@teacher.FullName</td>
-                                    <td>@teacher.Email</td>
-                                    <td>@teacher.BirthDate</td>
-                                    <td>@teacher.CourseName</td>
-                                    <td>@teacher.HireDate</td>
-                                    <td>@teacher.Status</td>
-                                    <td>@teacher.CreatedDate</td>
-                                    <td>@teacher.UpdatedDate</td>
+                                    <td>@student.FullName</td>
+                                    <td>@student.Email</td>
+                                    <td>@student.BirthDate</td>
+                                    <td>@student.ClassroomName</td>
+                                    <td>@student.TeacherName</td>
+                                    <td>@student.Average</td>
+                                    <td>@student.StudentStatus</td>
+                                    <td>@student.Status</td>
+                                    <td>@student.CreatedDate</td>
+                                    <td>@student.UpdatedDate</td>
                                     <td>
-                                        <a asp-action="UpdateTeacher" asp-route-id="@teacher.Id" class="btn btn-outline-primary">Güncelle</a>
+                                        <a asp-action="UpdateStudent" asp-route-id="@student.Id" class="btn btn-outline-primary">Güncelle</a>
                                     </td>
                                     <td>
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@teacher.Id">
+                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@student.Id">
                                             Sil
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal-@teacher.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="exampleModal-@student.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -56,11 +60,11 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @teacher.FullName eğitmenini silmek istediğinize emin misiniz?
+                                                        @student.FullName öğrencisini silmek istediğinize emin misiniz?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                                                        <a asp-action="DeleteTeacher" asp-route-id="@teacher.Id" class="btn btn-danger">Evet</a>
+                                                        <a asp-action="DeleteStudent" asp-route-id="@student.Id" class="btn btn-danger">Evet</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,7 +77,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                <a class="btn btn-outline-dark d-block" asp-action="CreateTeacher">Yeni Eğitmen Ekle</a>
+                <a class="btn btn-outline-dark d-block" asp-action="CreateStudent">Yeni Öğrenci Ekle</a>
             </div>
         </div>
     </div>

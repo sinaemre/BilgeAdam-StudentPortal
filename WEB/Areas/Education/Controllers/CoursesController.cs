@@ -125,7 +125,7 @@ namespace WEB.Areas.Education.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var dto = await _courseManager.GetByIdAsync<GetCourseDTO>(entityId);
+            var dto = await _courseManager.GetByIdAsync<DeleteCourseDTO>(entityId);
             if (dto != null)
             {
                 var result = await _courseManager.DeleteAsync(dto);

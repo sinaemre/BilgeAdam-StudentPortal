@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Create Classroom";
+}
+@model CreateClassroomVM
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Yeni Sınıf Ekle</h3>
+            </div>
+            <form asp-action="CreateClassroom">
+                <div class="card-body">
+                    <div>
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Description" class="form-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="TeacherId" class="form-label"></label>
+                        <select asp-items="@Model.Teachers" asp-for="TeacherId" class="form-control">
+                            <option disabled selected value="0">Lütfen eğitmen seçiniz!</option>
+                        </select>
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px;">
+                    <a class="btn btn-outline-dark" asp-action="Index">Geri Dön</a>
+                    <button type="submit" class="btn btn-outline-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
