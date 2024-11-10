@@ -42,9 +42,21 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div>
+                        <label asp-for="CourseId" class="form-label"></label>
+                        <select onchange="loadTeachersByCourseId(this.value,'teacher-select-student', 'classroom-select-student')" id="course-select" asp-for="CourseId" asp-items="Model.Courses" class="form-control">
+                            <option disabled selected value="0">Lütfen kurs seçiniz!</option>
+                        </select>
+                        <span asp-validation-for="CourseId" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="TeacherId" class="form-label"></label>
+                        <select onchange="loadClassroomsByTeacherId(this.value, 'classroom-select-student')" id="teacher-select-student" asp-for="TeacherId" class="form-control">
+                        </select>
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </div>
+                    <div>
                         <label asp-for="ClassroomId" class="form-label"></label>
-                        <select asp-items="@Model.Classrooms" asp-for="ClassroomId" class="form-control">
-                            <option disabled selected value="0">Lütfen sınıf seçiniz!</option>
+                        <select id="classroom-select-student" asp-for="ClassroomId" class="form-control">
                         </select>
                         <span asp-validation-for="ClassroomId" class="text-danger"></span>
                     </div>

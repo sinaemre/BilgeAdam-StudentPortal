@@ -21,6 +21,7 @@ namespace WEB.ServiceExtensions
             services.AddValidatorsFromAssemblyContaining<UpdateStudentValidator>();
 
             services.AddValidatorsFromAssemblyContaining<CreateClassroomValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdateClassroomValidator>();
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();

@@ -3,17 +3,17 @@ using WEB.Areas.Education.Models.ViewModels.Classrooms;
 
 namespace WEB.FluentValidation.ClassroomValidators
 {
-    public class CreateClassroomValidator : AbstractValidator<CreateClassroomVM>
+    public class UpdateClassroomValidator : AbstractValidator<UpdateClassroomVM>
     {
-        public CreateClassroomValidator()
+        public UpdateClassroomValidator()
         {
             RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage("Bu alan zorunludur!")
-                .MaximumLength(100)
-                .WithMessage("100 karakter sınırını aştınız!")
-                .MinimumLength(3)
-                .WithMessage("En az 3 karakter girmelisiniz!");
+               .NotEmpty()
+               .WithMessage("Bu alan zorunludur!")
+               .MaximumLength(100)
+               .WithMessage("100 karakter sınırını aştınız!")
+               .MinimumLength(3)
+               .WithMessage("En az 3 karakter girmelisiniz!");
 
             RuleFor(x => x.Description)
                .NotEmpty()
@@ -22,7 +22,7 @@ namespace WEB.FluentValidation.ClassroomValidators
                .WithMessage("100 karakter sınırını aştınız!")
                .MinimumLength(3)
                .WithMessage("En az 3 karakter girmelisiniz!");
-           
+
             RuleFor(x => x.TeacherId)
              .NotEmpty()
              .WithMessage("Bu alan zorunludur!");
@@ -30,7 +30,6 @@ namespace WEB.FluentValidation.ClassroomValidators
             RuleFor(x => x.CourseId)
              .NotEmpty()
              .WithMessage("Bu alan zorunludur!");
-
         }
     }
 }

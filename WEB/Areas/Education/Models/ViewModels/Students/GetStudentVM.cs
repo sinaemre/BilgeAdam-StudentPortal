@@ -8,6 +8,7 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         public string FullName { get; set; }
         public string BirthDate { get; set; }
         public string Email { get; set; }
+        public string CourseName { get; set; }
         public string ClassroomName { get; set; }
         public string TeacherName { get; set; }
         public double? Average { get; set; }

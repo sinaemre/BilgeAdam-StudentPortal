@@ -16,7 +16,13 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         
         [Display(Name = "Doğum Tarihi")]
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Kurs")]
+        public Guid? CourseId { get; set; }
         
+        [Display(Name = "Eğitmen")]
+        public Guid? TeacherId { get; set; }
+
         [Display(Name = "Sınıf")]
         public Guid? ClassroomId { get; set; }
       
@@ -25,6 +31,6 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         [Display(Name = "Resim")]
         public IFormFile? Image { get; set; }
 
-        public SelectList? Classrooms { get; set; }
+        public SelectList? Courses { get; set; }
     }
 }

@@ -12,8 +12,17 @@ namespace Business.Manager.Concrete
 {
     public class TeacherManager : BaseManager<ITeacherService, Teacher>, ITeacherManager
     {
+        private readonly ITeacherService _service;
+
         public TeacherManager(ITeacherService service, IMapper mapper) : base(service, mapper)
         {
+            _service = service;
+        }
+
+        public async Task<Guid> GetTeacherIdByClassroomIdAsync(Guid classroomId)
+        {
+            var teacherId = await _service.GetTeacherIdByClassroomIdAsync(classroomId);
+            return teacherId;
         }
     }
 }

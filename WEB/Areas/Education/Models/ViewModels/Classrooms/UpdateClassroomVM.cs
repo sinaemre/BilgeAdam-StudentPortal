@@ -3,8 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Areas.Education.Models.ViewModels.Classrooms
 {
-    public class CreateClassroomVM
+    public class UpdateClassroomVM
     {
+        public Guid Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
         [Display(Name = "Sınıf")]
         public string? Name { get; set; }
 
@@ -16,7 +19,8 @@ namespace WEB.Areas.Education.Models.ViewModels.Classrooms
 
         [Display(Name = "Kurs")]
         public Guid? CourseId { get; set; }
-        
+
         public SelectList? Courses { get; set; }
+        public SelectList? Teachers { get; set; }
     }
 }

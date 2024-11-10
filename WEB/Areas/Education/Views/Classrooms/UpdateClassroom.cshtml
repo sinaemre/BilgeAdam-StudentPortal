@@ -1,15 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Create Classroom";
+    ViewData["Title"] = "Update Classroom";
 }
-@model CreateClassroomVM
+@model UpdateClassroomVM
 
 <div class="row">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Yeni Sınıf Ekle</h3>
+                <h3 class="card-title">Sınıf Güncelle</h3>
             </div>
-            <form asp-action="CreateClassroom">
+            <form asp-action="UpdateClassroom">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="UpdatedDate" />
                 <div class="card-body">
                     <div>
                         <label asp-for="Name" class="form-label"></label>
@@ -23,14 +26,14 @@
                     </div>
                     <div>
                         <label asp-for="CourseId" class="form-label"></label>
-                        <select onchange="loadTeachersByCourseId(this.value,'teacher-select-classroom')" id="course-select" asp-items="@Model.Courses" asp-for="CourseId" class="form-control">
+                        <select onchange="loadTeachersByCourseId(this.value,'teacher-select-classroom-update')" id="course-select" asp-items="@Model.Courses" asp-for="CourseId" class="form-control">
                             <option disabled selected value="0">Lütfen kurs seçiniz!</option>
                         </select>
                         <span asp-validation-for="CourseId" class="text-danger"></span>
                     </div>
                     <div>
                         <label asp-for="TeacherId" class="form-label"></label>
-                        <select id="teacher-select-classroom" asp-for="TeacherId" class="form-control">
+                        <select asp-items="Model.Teachers" id="teacher-select-classroom-update" asp-for="TeacherId" class="form-control">
                         </select>
                         <span asp-validation-for="TeacherId" class="text-danger"></span>
                     </div>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DTO.Concrete.CourseDTO
 {
-    public class GetCourseSelectListDTO : BaseDTO
+    public class GetCourseForSelectListDTO : BaseDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

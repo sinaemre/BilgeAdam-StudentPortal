@@ -12,8 +12,17 @@ namespace Business.Manager.Concrete
 {
     public class CourseManager : BaseManager<ICourseService, Course>, ICourseManager
     {
+        private readonly ICourseService _service;
+
         public CourseManager(ICourseService service, IMapper mapper) : base(service, mapper)
         {
+            _service = service;
+        }
+
+        public async Task<Guid> GetCourseIdByClassroomIdAsync(Guid classroomId)
+        {
+            var courseId = await _service.GetCourseIdByClassroomIdAsync(classroomId);
+            return courseId;
         }
     }
 }

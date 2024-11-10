@@ -9,5 +9,6 @@ namespace DataAccess.Services.Interface
 {
     public interface ITeacherService : IBaseRepository<Teacher>
     {
+        Task<Guid> GetTeacherIdByClassroomIdAsync(Guid classroomId);
     }
 }

@@ -1,9 +1,12 @@
 ﻿using ApplicationCore.Consts;
 using ApplicationCore.Entities.Concrete;
 using AutoMapper;
+using Business.Manager.Concrete;
 using Business.Manager.Interface;
 using DTO.Concrete.ClassroomDTO;
+using DTO.Concrete.CourseDTO;
 using DTO.Concrete.StudentDTO;
+using DTO.Concrete.TeacherDTO;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using WEB.Areas.Education.Models.ViewModels.Classrooms;
 using WEB.Areas.Education.Models.ViewModels.Courses;
 using WEB.Areas.Education.Models.ViewModels.Students;
+using WEB.Areas.Education.Models.ViewModels.Teachers;
 
 namespace WEB.Areas.Education.Controllers
 {
@@ -19,15 +23,19 @@ namespace WEB.Areas.Education.Controllers
     {
         private readonly IStudentManager _studentManager;
         private readonly IMapper _mapper;
-        private readonly IClassroomManager _classroomManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ICourseManager _courseManager;
+        private readonly IClassroomManager _classroomManager;
+        private readonly ITeacherManager _teacherManager;
 
-        public StudentsController(IStudentManager studentManager, IMapper mapper, IClassroomManager classroomManager, IWebHostEnvironment webHostEnvironment)
+        public StudentsController(IStudentManager studentManager, IMapper mapper, IWebHostEnvironment webHostEnvironment, ICourseManager courseManager, IClassroomManager classroomManager, ITeacherManager teacherManager)
         {
             _studentManager = studentManager;
             _mapper = mapper;
-            _classroomManager = classroomManager;
             _webHostEnvironment = webHostEnvironment;
+            _courseManager = courseManager;
+            _classroomManager = classroomManager;
+            _teacherManager = teacherManager;
         }
 
         public async Task<IActionResult> Index()
@@ -40,6 +48,7 @@ namespace WEB.Areas.Education.Controllers
                         FullName = x.FirstName + " " + x.LastName,
                         BirthDate = x.BirthDate.ToShortDateString(),
                         Email = x.Email,
+                        CourseName = x.Classroom.Teacher.Course.Name,
                         ClassroomName = x.Classroom.Name,
                         TeacherName = x.Classroom.Teacher.FirstName + " " + x.Classroom.Teacher.LastName,
                         Average = x.Average,
@@ -52,7 +61,7 @@ namespace WEB.Areas.Education.Controllers
                     },
                     where: x => x.Status != Status.Passive,
                     orderBy: x => x.OrderByDescending(z => z.CreatedDate),
-                    join: x => x.Include(z => z.Classroom).ThenInclude(z => z.Teacher)
+                    join: x => x.Include(z => z.Classroom).ThenInclude(z => z.Teacher).ThenInclude(x => x.Course)
                 );
 
             return View(students);
@@ -62,7 +71,7 @@ namespace WEB.Areas.Education.Controllers
         {
             var model = new CreateStudentVM
             {
-                Classrooms = await GetClassrooms()
+                Courses = await GetCourses()
             };
 
             return View(model);
@@ -71,7 +80,7 @@ namespace WEB.Areas.Education.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateStudent(CreateStudentVM model)
         {
-            model.Classrooms = await GetClassrooms();
+            model.Courses = await GetCourses();
 
             if (ModelState.IsValid)
             {
@@ -116,7 +125,12 @@ namespace WEB.Areas.Education.Controllers
             if (dto != null)
             {
                 var model = _mapper.Map<UpdateStudentVM>(dto);
-                model.Classrooms = await GetClassrooms(dto.ClassroomId);
+
+                model.Courses = await GetCourses(model.ClassroomId);
+                model.Classrooms = await GetClassrooms(model.ClassroomId);
+                model.Teachers = await GetTeachers(model.ClassroomId);
+                model.TeacherId = await _teacherManager.GetTeacherIdByClassroomIdAsync((Guid)model.ClassroomId);
+                model.CourseId = await _courseManager.GetCourseIdByClassroomIdAsync((Guid)model.ClassroomId);
                 return View(model);
             }
 
@@ -127,7 +141,9 @@ namespace WEB.Areas.Education.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStudent(UpdateStudentVM model)
         {
+            model.Courses = await GetCourses(model.ClassroomId);
             model.Classrooms = await GetClassrooms(model.ClassroomId);
+            model.Teachers = await GetTeachers(model.ClassroomId);
 
             if (ModelState.IsValid)
             {
@@ -224,6 +240,21 @@ namespace WEB.Areas.Education.Controllers
 
 
 
+        private async Task<SelectList> GetCourses(Guid? classroomId)
+        {
+            var courseId = await _courseManager.GetCourseIdByClassroomIdAsync((Guid)classroomId);
+            var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
+            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
+            var selectedCourse = await _courseManager.GetByIdAsync<GetCourseForSelectListDTO>(courseId);
+            return new SelectList(coursesVM, "Id", "Name", selectedCourse);
+        }
+        private async Task<SelectList> GetCourses()
+        {
+            var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
+            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
+            return new SelectList(coursesVM, "Id", "Name");
+        }
+
         private async Task<SelectList> GetClassrooms(Guid? classroomId)
         {
             var classrooms = await _classroomManager.GetByDefaultsAsync<GetClassroomForSelectListDTO>(x => x.Status != Status.Passive);
@@ -231,11 +262,15 @@ namespace WEB.Areas.Education.Controllers
             var selectedClassroom = await _classroomManager.GetByIdAsync<GetClassroomForSelectListDTO>((Guid)classroomId);
             return new SelectList(classroomsVM, "Id", "Name", selectedClassroom);
         }
-        private async Task<SelectList> GetClassrooms()
+
+        private async Task<SelectList> GetTeachers(Guid? classroomId)
         {
-            var classrooms = await _classroomManager.GetByDefaultsAsync<GetClassroomForSelectListDTO>(x => x.Status != Status.Passive);
-            var classroomsVM = _mapper.Map<List<GetClassroomForSelectListVM>>(classrooms);
-            return new SelectList(classroomsVM, "Id", "Name");
+            var teacherId = await _teacherManager.GetTeacherIdByClassroomIdAsync((Guid)classroomId);
+            var teachers = await _teacherManager.GetByDefaultsAsync<GetTeacherForSelectListDTO>(x => x.Status != Status.Passive);
+            var teachersVM = _mapper.Map<List<GetTeacherForSelectListVM>>(teachers);
+            var selectedTeacher = await _teacherManager.GetByIdAsync<GetTeacherForSelectListDTO>(teacherId);
+            var selectedTeacherVM = _mapper.Map<GetTeacherForSelectListVM>(selectedTeacher);
+            return new SelectList(teachersVM, "Id", "FullName", selectedTeacherVM);
         }
     }
 }

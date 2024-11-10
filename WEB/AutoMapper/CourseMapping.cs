@@ -8,7 +8,7 @@ namespace WEB.AutoMapper
     {
         public CourseMapping()
         {
-            CreateMap<GetCourseVM, GetCourseSelectListDTO>().ReverseMap();
+            CreateMap<GetCourseForSelectListVM, GetCourseForSelectListDTO>().ReverseMap();
             CreateMap<CreateCourseVM, CreateCourseDTO>().ReverseMap();
             CreateMap<UpdateCourseVM, UpdateCourseDTO>().ReverseMap();
         }

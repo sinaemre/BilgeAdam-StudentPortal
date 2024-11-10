@@ -25,11 +25,19 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         [Display(Name = "Sınıf")]
         public Guid? ClassroomId { get; set; }
 
+        [Display(Name = "Kurs")]
+        public Guid? CourseId { get; set; }
+
+        [Display(Name = "Eğitmen")]
+        public Guid? TeacherId { get; set; }
+
         public string? ImagePath { get; set; }
 
         [Display(Name = "Resim")]
         public IFormFile? Image { get; set; }
 
+        public SelectList? Courses { get; set; }
         public SelectList? Classrooms { get; set; }
+        public SelectList? Teachers { get; set; }
     }
 }

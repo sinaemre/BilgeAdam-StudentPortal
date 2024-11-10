@@ -15,6 +15,8 @@ namespace Business.AutoMapper
         {
             CreateMap<GetClassroomForSelectListDTO, Classroom>().ReverseMap();
             CreateMap<CreateClassroomDTO, Classroom>().ReverseMap();
+            CreateMap<UpdateClassroomDTO, Classroom>().ReverseMap();
+            CreateMap<DeleteClassroomDTO, Classroom>().ReverseMap();
 
         }
     }

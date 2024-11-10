@@ -43,6 +43,15 @@ namespace WEB.FluentValidation.StudentValidators
             RuleFor(x => x.ClassroomId)
              .NotEmpty()
              .WithMessage("Bu alan zorunludur!");
+
+            RuleFor(x => x.TeacherId)
+             .NotEmpty()
+             .WithMessage("Bu alan zorunludur!");
+
+            RuleFor(x => x.CourseId)
+             .NotEmpty()
+             .WithMessage("Bu alan zorunludur!");
+
         }
     }
 }

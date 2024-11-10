@@ -53,11 +53,9 @@ namespace WEB.Areas.Education.Controllers
 
         public async Task<IActionResult> CreateTeacher()
         {
-            var courses = await _courseManager.GetByDefaultsAsync<GetCourseSelectListDTO>(x => x.Status != Status.Passive);
-            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
             var model = new CreateTeacherVM
             {
-                Courses = new SelectList(coursesVM, "Id", "Name")
+                Courses = await GetCourses()
             };
 
             return View(model);
@@ -66,9 +64,7 @@ namespace WEB.Areas.Education.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTeacher(CreateTeacherVM model)
         {
-            var courses = await _courseManager.GetByDefaultsAsync<GetCourseSelectListDTO>(x => x.Status != Status.Passive);
-            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
-            model.Courses = new SelectList(coursesVM, "Id", "Name");
+            model.Courses = await GetCourses();
 
             if (ModelState.IsValid)
             {
@@ -102,12 +98,8 @@ namespace WEB.Areas.Education.Controllers
             var dto = await _teacherManager.GetByIdAsync<UpdateTeacherDTO>(entityId);
             if (dto != null)
             {
-                var courses = await _courseManager.GetByDefaultsAsync<GetCourseSelectListDTO>(x => x.Status != Status.Passive);
-                var coursesVM = _mapper.Map<List<GetCourseVM>>(courses);
-                var selectedCourse = await _courseManager.GetByIdAsync<GetCourseSelectListDTO>(dto.CourseId);
-                var selectedCourseVM = _mapper.Map<GetCourseVM>(selectedCourse);
                 var model = _mapper.Map<UpdateTeacherVM>(dto);
-                model.Courses = new SelectList(coursesVM, "Id", "Name", selectedCourseVM);
+                model.Courses = await GetCourses(dto.CourseId);
                 return View(model);
             }
 
@@ -118,11 +110,7 @@ namespace WEB.Areas.Education.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTeacher(UpdateTeacherVM model)
         {
-            var courses = await _courseManager.GetByDefaultsAsync<GetCourseSelectListDTO>(x => x.Status != Status.Passive);
-            var coursesVM = _mapper.Map<List<GetCourseVM>>(courses);
-            var selectedCourse = await _courseManager.GetByIdAsync<GetCourseSelectListDTO>((Guid)model.CourseId);
-            var selectedCourseVM = _mapper.Map<GetCourseVM>(selectedCourse);
-            model.Courses = new SelectList(coursesVM, "Id", "Name", selectedCourseVM);
+            model.Courses = await GetCourses(model.CourseId);
 
             if (ModelState.IsValid)
             {
@@ -164,6 +152,42 @@ namespace WEB.Areas.Education.Controllers
             }
             TempData["Error"] = "Eğitmen bulunamamıştır!";
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GetTeachersByCourseId(string courseId)
+        {
+            Guid entityId;
+            var guidResult = Guid.TryParse(courseId, out entityId);
+            if (!guidResult)
+            {
+                TempData["Error"] = "Eğitmen bulunamadı!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var teachersDTO = await _teacherManager.GetByDefaultsAsync<GetTeacherForSelectListDTO>(x => x.CourseId == entityId);
+            var teacherVM = _mapper.Map<List<GetTeacherForSelectListVM>>(teachersDTO);
+            return Json(teacherVM);
+        }
+
+
+
+
+
+
+
+
+        private async Task<SelectList> GetCourses(Guid? courseId)
+        {
+            var courses = await _courseManager.GetByDefaultsAsync<GetTeacherForSelectListDTO>(x => x.Status != Status.Passive);
+            var coursesVM = _mapper.Map<List<GetTeacherForSelectListVM>>(courses);
+            var selectedCourse = await _courseManager.GetByIdAsync<GetTeacherForSelectListDTO>((Guid)courseId);
+            return new SelectList(coursesVM, "Id", "Name", selectedCourse);
+        }
+        private async Task<SelectList> GetCourses()
+        {
+            var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
+            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
+            return new SelectList(coursesVM, "Id", "Name");
         }
     }
 }

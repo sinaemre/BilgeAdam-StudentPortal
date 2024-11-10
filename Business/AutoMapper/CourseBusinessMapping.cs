@@ -13,9 +13,10 @@ namespace Business.AutoMapper
     {
         public CourseBusinessMapping()
         {
-            CreateMap<Course, GetCourseSelectListDTO>().ReverseMap();
+            CreateMap<Course, GetCourseForSelectListDTO>().ReverseMap();
             CreateMap<Course, CreateCourseDTO>().ReverseMap();
             CreateMap<Course, UpdateCourseDTO>().ReverseMap();
+            CreateMap<Course, DeleteCourseDTO>().ReverseMap();
         }
     }
 }
