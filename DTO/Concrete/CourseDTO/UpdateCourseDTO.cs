@@ -13,5 +13,6 @@ namespace DTO.Concrete.CourseDTO
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string Name { get; set; }
+        public int? TotalHour { get; set; }
     }
 }

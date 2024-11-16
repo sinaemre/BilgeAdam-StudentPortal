@@ -19,7 +19,8 @@ namespace DataAccess.SeedData.EntitySeedData
                     {
                         Id = Guid.Parse("4a7cbc57-034e-4511-8e42-ddc5ba586438"),
                         Name = "YZL-8443",
-                        Description = "320 Saat Full Stack Developer Yetiştirme Programı",
+                        Description = "Yaz Dönemi Sınıfı",
+                        StartDate = new DateTime(2024, 12, 02),
                         TeacherId = Guid.Parse("4b838da2-ec21-4d9b-8740-dc375130e3b0")
                     }
                 );

@@ -28,3 +28,9 @@ td {
 th {
     text-align: center
 }
+
+.admin-header {
+    color: #4E73DF;
+    font-size: xx-large;
+    font-weight: bold;
+}

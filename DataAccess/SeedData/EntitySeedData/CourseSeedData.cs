@@ -18,12 +18,14 @@ namespace DataAccess.SeedData.EntitySeedData
                     new Course
                     {
                         Id = Guid.Parse("a1c775f9-0097-4dec-ab1e-9437a81beaff"),
-                        Name = ".NET"
+                        Name = ".NET",
+                        TotalHour = 320
                     },
                     new Course
                     {
                         Id = Guid.Parse("ed370602-3323-4299-87dd-e46f12b087b6"),
-                        Name = "Java"
+                        Name = "Java",
+                        TotalHour = 250
                     }
                 );
         }

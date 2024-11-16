@@ -32,5 +32,8 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         public IFormFile? Image { get; set; }
 
         public SelectList? Courses { get; set; }
+
+        [Display(Name = "Kayıt Ücreti")]
+        public double? RegisterPrice { get; set; }
     }
 }

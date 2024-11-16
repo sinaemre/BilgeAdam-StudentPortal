@@ -21,5 +21,7 @@ namespace DTO.Concrete.StudentDTO
         public Guid? ClassroomId { get; set; }
         public string? ImagePath { get; set; }
         public IFormFile? Image { get; set; }
+        public double? RegisterPrice { get; set; }
+
     }
 }

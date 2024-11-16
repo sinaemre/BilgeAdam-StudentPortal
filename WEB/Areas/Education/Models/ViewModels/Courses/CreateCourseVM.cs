@@ -6,5 +6,8 @@ namespace WEB.Areas.Education.Models.ViewModels.Courses
     {
         [Display(Name = "Kurs")]
         public string? Name { get; set; }
+
+        [Display(Name = "Toplam Saat")]
+        public int? TotalHour { get; set; }
     }
 }

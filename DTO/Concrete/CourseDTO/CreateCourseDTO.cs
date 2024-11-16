@@ -10,5 +10,6 @@ namespace DTO.Concrete.CourseDTO
     public class CreateCourseDTO : BaseDTO
     {
         public string Name { get; set; }
+        public int? TotalHour { get; set; }
     }
 }

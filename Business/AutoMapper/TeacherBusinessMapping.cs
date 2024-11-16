@@ -18,7 +18,7 @@ namespace Business.AutoMapper
                 .ReverseMap();
             CreateMap<CreateTeacherDTO, Teacher>().ReverseMap();
             CreateMap<UpdateTeacherDTO, Teacher>().ReverseMap();
-            CreateMap<DeleteTeacherDTO, Teacher>().ReverseMap();
+            CreateMap<UpdateTeacherDTO, Teacher>().ReverseMap();
         }
     }
 }

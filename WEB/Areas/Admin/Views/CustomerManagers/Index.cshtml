@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model List<GetCustomerManagerVM>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Müşteri Yöneticileri</h3>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Müşteri Yöneticisi</th>
+                                <th>Email</th>
+                                <th>Doğum Tarihi</th>
+                                <th>İşe Giriş Tarihi</th>
+                                <th>Durum</th>
+                                <th>Eklenme Tarihi</th>
+                                <th>Güncellenme Tarihi</th>
+                                <th>Güncelle</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var customerManager in Model)
+                            {
+                                <tr>
+                                    <td>@customerManager.FullName</td>
+                                    <td>@customerManager.Email</td>
+                                    <td>@customerManager.BirthDate</td>
+                                    <td>@customerManager.HireDate</td>
+                                    <td>@customerManager.Status</td>
+                                    <td>@customerManager.CreatedDate</td>
+                                    <td>@customerManager.UpdatedDate</td>
+                                    <td>
+                                        <a asp-action="UpdateCustomerManager" asp-route-id="@customerManager.Id" class="btn btn-outline-primary">Güncelle</a>
+                                    </td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@customerManager.Id">
+                                            Sil
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal-@customerManager.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı!</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @customerManager.FullName müşteri yöneticisini silmek istediğinize emin misiniz?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                        <a asp-action="DeleteCustomerManager" asp-route-id="@customerManager.Id" class="btn btn-danger">Evet</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-dark d-block" asp-action="CreateCustomerManager">Yeni Müşteri Yöneticisi Ekle</a>
+            </div>
+        </div>
+    </div>
+</div>

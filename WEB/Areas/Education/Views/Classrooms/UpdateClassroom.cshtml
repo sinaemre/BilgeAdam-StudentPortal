@@ -25,6 +25,16 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                     <div>
+                        <label asp-for="StartDate" class="form-label"></label>
+                        <input type="date" asp-for="StartDate" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="EndDate" class="form-label"></label>
+                        <input type="date" asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div>
                         <label asp-for="CourseId" class="form-label"></label>
                         <select onchange="loadTeachersByCourseId(this.value,'teacher-select-classroom-update')" id="course-select" asp-items="@Model.Courses" asp-for="CourseId" class="form-control">
                             <option disabled selected value="0">Lütfen kurs seçiniz!</option>

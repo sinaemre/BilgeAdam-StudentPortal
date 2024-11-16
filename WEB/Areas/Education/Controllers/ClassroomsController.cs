@@ -42,6 +42,8 @@ namespace WEB.Areas.Education.Controllers
                         Name = x.Name,
                         CourseName = x.Teacher.Course.Name,
                         Description = x.Description,
+                        StartDate = x.StartDate != null ? x.StartDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
+                        EndDate = x.EndDate != null ? x.EndDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
                         TeacherName = x.Teacher.FirstName + " " + x.Teacher.LastName,
                         ClassroomSize = x.Students.Where(x => x.Status != Status.Passive).ToList().Count,
                         CreatedDate = x.CreatedDate,
@@ -146,7 +148,7 @@ namespace WEB.Areas.Education.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var dto = await _classroomManager.GetByIdAsync<DeleteClassroomDTO>(entityId);
+            var dto = await _classroomManager.GetByIdAsync<UpdateClassroomDTO>(entityId);
             
             if (dto != null)
             {

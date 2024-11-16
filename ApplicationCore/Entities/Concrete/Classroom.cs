@@ -30,5 +30,8 @@ namespace ApplicationCore.Entities.Concrete
         public Teacher Teacher { get; set; }
 
         public List<Student> Students { get; set; }
+
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

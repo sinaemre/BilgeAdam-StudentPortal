@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Create CustomerManager";
+}
+@model CreateCustomerManagerVM
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Yeni Müşteri Yöneticisi Ekle</h3>
+            </div>
+            <form asp-action="CreateCustomerManager">
+                <div class="card-body">
+                    <div>
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="BirthDate" class="form-label"></label>
+                        <input type="date" asp-for="BirthDate" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="HireDate" class="form-label"></label>
+                        <input type="date" asp-for="HireDate" class="form-control" />
+                        <span asp-validation-for="HireDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px;">
+                    <a class="btn btn-outline-dark" asp-action="Index">Geri Dön</a>
+                    <button type="submit" class="btn btn-outline-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

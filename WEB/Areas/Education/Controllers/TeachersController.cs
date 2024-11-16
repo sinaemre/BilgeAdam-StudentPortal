@@ -137,7 +137,7 @@ namespace WEB.Areas.Education.Controllers
                 TempData["Error"] = "Eğitmen bulunamadı!";
                 return RedirectToAction(nameof(Index));
             }
-            var dto = await _teacherManager.GetByIdAsync<DeleteTeacherDTO>(entityId);
+            var dto = await _teacherManager.GetByIdAsync<UpdateTeacherDTO>(entityId);
 
             if (dto != null)
             {

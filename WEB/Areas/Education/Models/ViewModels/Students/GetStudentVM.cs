@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Consts;
+using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Areas.Education.Models.ViewModels.Students
 {
@@ -11,6 +12,7 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         public string CourseName { get; set; }
         public string ClassroomName { get; set; }
         public string TeacherName { get; set; }
+        public string? RegisterPrice { get; set; }
         public double? Average { get; set; }
         public string Status { get; set; }
         public string StudentStatus { get; set; }

@@ -27,6 +27,7 @@ namespace WEB.Areas.Education.Controllers
                     {
                         Id = x.Id, 
                         Name = x.Name,
+                        TotalHour = x.TotalHour != null ? x.TotalHour.Value.ToString() : " - ",
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate != null ? x.UpdatedDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
                         Status = x.Status == Status.Active ? "Aktif" : "Güncellenmiş"
@@ -125,7 +126,7 @@ namespace WEB.Areas.Education.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var dto = await _courseManager.GetByIdAsync<DeleteCourseDTO>(entityId);
+            var dto = await _courseManager.GetByIdAsync<UpdateCourseDTO>(entityId);
             if (dto != null)
             {
                 var result = await _courseManager.DeleteAsync(dto);

@@ -36,6 +36,9 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
         [Display(Name = "Resim")]
         public IFormFile? Image { get; set; }
 
+        [Display(Name = "Kayıt Ücreti")]
+        public double? RegisterPrice { get; set; }
+
         public SelectList? Courses { get; set; }
         public SelectList? Classrooms { get; set; }
         public SelectList? Teachers { get; set; }

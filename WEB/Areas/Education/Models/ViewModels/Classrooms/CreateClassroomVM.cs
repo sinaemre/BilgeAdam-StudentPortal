@@ -18,5 +18,12 @@ namespace WEB.Areas.Education.Models.ViewModels.Classrooms
         public Guid? CourseId { get; set; }
         
         public SelectList? Courses { get; set; }
+
+        [Display(Name = "Başlangıç Tarihi")]
+        public DateTime? StartDate { get; set; }
+        
+        [Display(Name = "Bitiş Tarihi")]
+        public DateTime? EndDate { get; set; }
+
     }
 }

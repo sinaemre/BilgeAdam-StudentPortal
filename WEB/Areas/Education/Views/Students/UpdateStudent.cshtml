@@ -47,6 +47,11 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div>
+                        <label asp-for="RegisterPrice" class="form-label"></label>
+                        <input asp-for="RegisterPrice" class="form-control" />
+                        <span asp-validation-for="RegisterPrice" class="text-danger"></span>
+                    </div>
+                    <div>
                         <label asp-for="CourseId" class="form-label"></label>
                         <select asp-items="Model.Courses" onchange="loadTeachersByCourseId(this.value,'teacher-select-student-update', 'classroom-select-student-update')" asp-for="CourseId" asp-items="Model.Courses" class="form-control">
                             <option disabled value="0">Lütfen kurs seçiniz!</option>

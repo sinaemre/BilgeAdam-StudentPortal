@@ -48,6 +48,7 @@ namespace WEB.Areas.Education.Controllers
                         FullName = x.FirstName + " " + x.LastName,
                         BirthDate = x.BirthDate.ToShortDateString(),
                         Email = x.Email,
+                        RegisterPrice = x.RegisterPrice != null ? x.RegisterPrice.Value.ToString("C2") : " - ",
                         CourseName = x.Classroom.Teacher.Course.Name,
                         ClassroomName = x.Classroom.Name,
                         TeacherName = x.Classroom.Teacher.FirstName + " " + x.Classroom.Teacher.LastName,
@@ -196,7 +197,7 @@ namespace WEB.Areas.Education.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var dto = await _studentManager.GetByIdAsync<DeleteStudentDTO>(entityId);
+            var dto = await _studentManager.GetByIdAsync<UpdateStudentDTO>(entityId);
 
             if (dto != null)
             {

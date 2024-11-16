@@ -63,5 +63,7 @@ namespace ApplicationCore.Entities.Concrete
         [Required]
         public Guid ClassroomId { get; set; }
         public Classroom Classroom { get; set; }
+
+        public double? RegisterPrice { get; set; }
     }
 }
