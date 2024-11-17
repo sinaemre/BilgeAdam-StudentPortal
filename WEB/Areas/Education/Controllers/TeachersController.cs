@@ -1,10 +1,8 @@
 ﻿using ApplicationCore.Consts;
-using ApplicationCore.Entities.Concrete;
 using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.TeacherDTO;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -181,13 +179,13 @@ namespace WEB.Areas.Education.Controllers
             var courses = await _courseManager.GetByDefaultsAsync<GetTeacherForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetTeacherForSelectListVM>>(courses);
             var selectedCourse = await _courseManager.GetByIdAsync<GetTeacherForSelectListDTO>((Guid)courseId);
-            return new SelectList(coursesVM, "Id", "Name", selectedCourse);
+            return new SelectList(coursesVM, "Id", "Info", selectedCourse);
         }
         private async Task<SelectList> GetCourses()
         {
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
-            return new SelectList(coursesVM, "Id", "Name");
+            return new SelectList(coursesVM, "Id", "Info");
         }
     }
 }

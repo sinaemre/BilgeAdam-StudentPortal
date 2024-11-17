@@ -42,8 +42,8 @@ namespace WEB.Areas.Education.Controllers
                         Name = x.Name,
                         CourseName = x.Teacher.Course.Name,
                         Description = x.Description,
-                        StartDate = x.StartDate != null ? x.StartDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
-                        EndDate = x.EndDate != null ? x.EndDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
+                        StartDate = x.StartDate != null ? x.StartDate.Value.ToShortDateString() : " - ",
+                        EndDate = x.EndDate != null ? x.EndDate.Value.ToShortDateString() : " - ",
                         TeacherName = x.Teacher.FirstName + " " + x.Teacher.LastName,
                         ClassroomSize = x.Students.Where(x => x.Status != Status.Passive).ToList().Count,
                         CreatedDate = x.CreatedDate,
@@ -88,7 +88,6 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
-        
         public async Task<IActionResult> UpdateClassroom(string id)
         {
             Guid entityId;
@@ -136,7 +135,6 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
 
         }
-
 
         public async Task<IActionResult> DeleteClassroom(string id)
         {
@@ -192,13 +190,14 @@ namespace WEB.Areas.Education.Controllers
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
             var selectedCourse = await _courseManager.GetByIdAsync<GetCourseForSelectListDTO>((Guid)courseId);
-            return new SelectList(coursesVM, "Id", "Name", selectedCourse);
+            return new SelectList(coursesVM, "Id", "Info", selectedCourse);
         }
+        
         private async Task<SelectList> GetCourses()
         {
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
-            return new SelectList(coursesVM, "Id", "Name");
+            return new SelectList(coursesVM, "Id", "Info");
         }
 
         private async Task<SelectList> GetTeachers(Guid? teacherId)

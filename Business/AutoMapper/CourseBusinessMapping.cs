@@ -17,6 +17,7 @@ namespace Business.AutoMapper
             CreateMap<Course, CreateCourseDTO>().ReverseMap();
             CreateMap<Course, UpdateCourseDTO>().ReverseMap();
             CreateMap<Course, UpdateCourseDTO>().ReverseMap();
+            CreateMap<Course, GetCourseDTO>().ReverseMap();
         }
     }
 }

@@ -247,13 +247,13 @@ namespace WEB.Areas.Education.Controllers
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
             var selectedCourse = await _courseManager.GetByIdAsync<GetCourseForSelectListDTO>(courseId);
-            return new SelectList(coursesVM, "Id", "Name", selectedCourse);
+            return new SelectList(coursesVM, "Id", "Info", selectedCourse);
         }
         private async Task<SelectList> GetCourses()
         {
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
-            return new SelectList(coursesVM, "Id", "Name");
+            return new SelectList(coursesVM, "Id", "Info");
         }
 
         private async Task<SelectList> GetClassrooms(Guid? classroomId)

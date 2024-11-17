@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities.Concrete;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Services.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;

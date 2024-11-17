@@ -47,6 +47,16 @@
                         </select>
                         <span asp-validation-for="TeacherId" class="text-danger"></span>
                     </div>
+                    <div>
+                        <label asp-for="StartDate" class="form-label"></label>
+                        <input onchange="setClassroomEndDate(this,'endDate-update')" id="startDate-update" type="date" asp-for="StartDate" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="EndDate" class="form-label"></label>
+                        <input id="endDate-update" type="date" asp-for="EndDate" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px;">
                     <a class="btn btn-outline-dark" asp-action="Index">Geri Dön</a>

@@ -8,7 +8,9 @@ namespace WEB.AutoMapper
     {
         public CourseMapping()
         {
-            CreateMap<GetCourseForSelectListVM, GetCourseForSelectListDTO>().ReverseMap();
+            CreateMap<GetCourseForSelectListDTO, GetCourseForSelectListVM>()
+                .ForMember(dest => dest.Info, src => src.MapFrom(x => x.Name + " - " + x.TotalHour + " Saat"))
+                .ReverseMap();
             CreateMap<CreateCourseVM, CreateCourseDTO>().ReverseMap();
             CreateMap<UpdateCourseVM, UpdateCourseDTO>().ReverseMap();
         }

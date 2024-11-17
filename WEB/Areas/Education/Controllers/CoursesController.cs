@@ -141,5 +141,40 @@ namespace WEB.Areas.Education.Controllers
             TempData["Error"] = "Kurs bulunamadı!";
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("Education/Courses/GetCourseDuration/{courseId}")]
+        public async Task<IActionResult> GetCourseDuration(string courseId)
+        {
+            Guid entityId;
+            var guidResult = Guid.TryParse(courseId, out entityId);
+            if (!guidResult)
+            {
+                TempData["Error"] = "Kurs bulunamamıştır!";
+                return BadRequest();
+            }
+
+            var dto = await _courseManager.GetByIdAsync<GetCourseDTO>(entityId);
+
+            if (dto != null)
+            {
+                double courseHour = dto != null ? Convert.ToDouble(dto.TotalHour) : 0;
+                double courseDay = courseHour / 5;
+                double courseWeek = courseDay / 5;
+                double daysOfflineCourse = courseWeek * 2;
+                double totalDay = courseDay + daysOfflineCourse;
+                return Ok(totalDay);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("Education/Courses/GetAllCourses")]
+        public async Task<IActionResult> GetAllCourses()
+        {
+            var courses = await _courseManager.GetCoursesForEarnings();
+            if (courses == null)
+                return NotFound();
+
+            return Ok(courses);
+        }
     }
 }

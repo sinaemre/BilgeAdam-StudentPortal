@@ -3,12 +3,9 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Context.IdentityContext;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WEB.Autofac;
-using WEB.FluentValidation.TeacherValidators;
 using WEB.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
