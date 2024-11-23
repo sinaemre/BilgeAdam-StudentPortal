@@ -11,7 +11,7 @@ namespace ApplicationCore.UserEntites.Concrete
 {
     public class AppRole : IdentityRole<Guid>
     {
-        private DateTime _createdDate = DateTime.UtcNow;
+        private DateTime _createdDate = DateTime.Now;
         private Status _status = Status.Active;
 
         public DateTime CreatedDate { get => _createdDate; set => _createdDate = value; }

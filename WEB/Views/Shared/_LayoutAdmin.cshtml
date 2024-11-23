@@ -34,6 +34,13 @@
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item active">
+                <a class="nav-link" asp-area="Admin" asp-controller="Roles" asp-action="Index">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Roller</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item active">
                 <a class="nav-link" asp-area="Education" asp-controller="Teachers" asp-action="Index">
                     <i class="fa-solid fa-person-chalkboard"></i>
                     <span>Eğitmenler</span>
@@ -110,6 +117,15 @@
                     </ul>
                 </nav>
                 <div class="container-fluid">
+                    @if (TempData["Success"] is not null)
+                    {
+                        <div class="alert alert-success notification">@TempData["Success"]</div>
+                    }
+                    else if (TempData["Error"] is not null)
+                    {
+                        <div class="alert alert-danger notification">@TempData["Error"]</div>
+                    }
+
                     @RenderBody()
 
                 </div>

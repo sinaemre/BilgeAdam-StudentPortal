@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Assign Role";
+}
+@model AssignRoleVM
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Rol Yönetimi - @Model.RoleName</h3>
+            </div>
+            <form asp-action="AssignToRole">
+                <input type="hidden" asp-for="Role" />
+                <input type="hidden" asp-for="RoleName" />
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 p-2">
+                            <h5>Role Sahip Olmayan Kullanıcılar</h5>
+                            <table class="table table-hover">
+                                @if (Model.HasNotRole?.Count() == 0 || Model.HasNotRole == null)
+                                {
+                                    <tr>
+                                        <th>Bütün kullanılar bu role sahip!</th>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var user in Model.HasNotRole)
+                                    {
+                                        <tr>
+                                            <td>@user.UserName</td>
+                                            <td>
+                                                <input type="checkbox" value="@user.Id" name="AddIds" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+
+                        <div class="col-md-6 p-2">
+                            <h5>Role Sahip Olan Kullanıcılar</h5>
+                            <table class="table table-hover">
+                                @if (Model.HasRole?.Count() == 0 || Model.HasRole == null)
+                                {
+                                    <tr>
+                                        <th>Hiçbir kullanıcı bu role sahip değil!</th>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @foreach (var user in Model.HasRole)
+                                    {
+                                        <tr>
+                                            <td>@user.UserName</td>
+                                            <td>
+                                                <input type="checkbox" value="@user.Id" name="RemoveIds" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer d-flex align-items-center justify-content-between" style="height:50px">
+                    <a asp-action="Index" class="btn btn-outline-dark">Geri Dön</a>
+                    <button type="submit" class="btn btn-outline-success">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

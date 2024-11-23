@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using WEB.FluentValidation.ClassroomValidators;
 using WEB.FluentValidation.CourseValidators;
 using WEB.FluentValidation.CustomerManagerValidators;
+using WEB.FluentValidation.RoleValidators;
 using WEB.FluentValidation.StudentValidators;
 using WEB.FluentValidation.TeacherValidators;
 
@@ -26,6 +27,9 @@ namespace WEB.ServiceExtensions
 
             services.AddValidatorsFromAssemblyContaining<CreateCustomerManagerValidator>();
             services.AddValidatorsFromAssemblyContaining<UpdateCustomerManagerValidator>();
+
+            services.AddValidatorsFromAssemblyContaining<CreateRoleValidator>();
+            services.AddValidatorsFromAssemblyContaining<UpdateRoleValidator>();
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();

@@ -23,6 +23,12 @@ namespace WEB.Autofac
                 .AsClosedTypesOf(typeof(IBaseManager<,>))
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<UserManager>().As<IUserManager>().InstancePerLifetimeScope();
+            builder.RegisterType<RoleManager>().As<IRoleManager>().InstancePerLifetimeScope();
+
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<RoleService>().As<IRoleService>().InstancePerLifetimeScope();
+
             var mappingconfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new TeacherMapping());
@@ -30,12 +36,16 @@ namespace WEB.Autofac
                 mc.AddProfile(new ClassroomMapping());
                 mc.AddProfile(new StudentMapping());
                 mc.AddProfile(new CustomerManagerMapping());
+                mc.AddProfile(new RoleMapping());
+                mc.AddProfile(new UserMapping());
 
                 mc.AddProfile(new TeacherBusinessMapping());
                 mc.AddProfile(new CourseBusinessMapping());
                 mc.AddProfile(new ClassroomBusinessMapping());
                 mc.AddProfile(new StudentBusinessMapping());
                 mc.AddProfile(new CustomerManagerBusinessMapping());
+                mc.AddProfile(new RoleBusinessMapping());
+                mc.AddProfile(new UserBusinessMapping());
             });
 
             IMapper mapper = mappingconfig.CreateMapper();

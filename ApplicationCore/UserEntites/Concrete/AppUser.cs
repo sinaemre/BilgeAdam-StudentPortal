@@ -11,7 +11,7 @@ namespace ApplicationCore.UserEntites.Concrete
 {
     public class AppUser : IdentityUser<Guid>
     {
-        private DateTime _createdDate = DateTime.UtcNow;
+        private DateTime _createdDate = DateTime.Now;
         private Status _status = Status.Active;
 
         public string FirstName { get; set; }

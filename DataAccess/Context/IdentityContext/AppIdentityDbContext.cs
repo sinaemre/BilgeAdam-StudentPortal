@@ -31,7 +31,8 @@ namespace DataAccess.Context.IdentityContext
 
             builder.Entity<AppRole>()
                 .Property(x => x.ConcurrencyStamp)
-                .IsConcurrencyToken();
+                .IsConcurrencyToken(false);
+
         }
     }
 }
