@@ -32,7 +32,10 @@ namespace DataAccess.Context.IdentityContext
             builder.Entity<AppRole>()
                 .Property(x => x.ConcurrencyStamp)
                 .IsConcurrencyToken(false);
-
+            
+            // builder.Entity<AppUser>()
+            //     .Property(x => x.RowVersion)
+            //     .IsRowVersion();
         }
     }
 }

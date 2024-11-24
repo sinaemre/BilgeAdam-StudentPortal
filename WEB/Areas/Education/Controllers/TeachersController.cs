@@ -1,8 +1,10 @@
 ﻿using ApplicationCore.Consts;
+using ApplicationCore.UserEntites.Concrete;
 using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.TeacherDTO;
+using DTO.Concrete.UserDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +19,14 @@ namespace WEB.Areas.Education.Controllers
         private readonly ITeacherManager _teacherManager;
         private readonly IMapper _mapper;
         private readonly ICourseManager _courseManager;
+        private readonly IUserManager _userManager;
 
-        public TeachersController(ITeacherManager teacherManager, IMapper mapper, ICourseManager courseManager)
+        public TeachersController(ITeacherManager teacherManager, IMapper mapper, ICourseManager courseManager, IUserManager userManager)
         {
             _teacherManager = teacherManager;
             _mapper = mapper;
             _courseManager = courseManager;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -66,17 +70,30 @@ namespace WEB.Areas.Education.Controllers
 
             if (ModelState.IsValid)
             {
-                var dto = _mapper.Map<CreateTeacherDTO>(model);
-                var result = await _teacherManager.AddAsync(dto);
-
-                if (result)
+                var appUserDto = _mapper.Map<CreateUserDTO>(model);
+                var resultApp = await _userManager.CreateUserAsync(appUserDto);
+                if (resultApp)
                 {
-                    TempData["Success"] = $"{model.FirstName} {model.LastName} eğitmeni sisteme kaydedilmiştir!";
-                    return RedirectToAction(nameof(Index));
+                    var resultRole = await _userManager.AddUserToRoleAsync(appUserDto.Email, "teacher");
+                    if (resultRole)
+                    {
+                        var dto = _mapper.Map<CreateTeacherDTO>(model);
+                        var result = await _teacherManager.AddAsync(dto);
+                        if (result)
+                        {
+                            TempData["Success"] = $"{model.FirstName} {model.LastName} eğitmeni sisteme kaydedilmiştir!";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        TempData["Error"] = "Eğitmen sisteme kaydedilemedi!";
+                        return View(model);
+                    }
+                    TempData["Error"] = "Eğitmen role kaydedilemedi!";
+                    return View(model);
+                    
                 }
-
                 TempData["Error"] = "Eğitmen sisteme kaydedilemedi!";
                 return View(model);
+               
             }
             TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
             return View(model);
@@ -176,9 +193,9 @@ namespace WEB.Areas.Education.Controllers
 
         private async Task<SelectList> GetCourses(Guid? courseId)
         {
-            var courses = await _courseManager.GetByDefaultsAsync<GetTeacherForSelectListDTO>(x => x.Status != Status.Passive);
-            var coursesVM = _mapper.Map<List<GetTeacherForSelectListVM>>(courses);
-            var selectedCourse = await _courseManager.GetByIdAsync<GetTeacherForSelectListDTO>((Guid)courseId);
+            var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);
+            var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
+            var selectedCourse = await _courseManager.GetByIdAsync<GetCourseForSelectListDTO>((Guid)courseId);
             return new SelectList(coursesVM, "Id", "Info", selectedCourse);
         }
         private async Task<SelectList> GetCourses()

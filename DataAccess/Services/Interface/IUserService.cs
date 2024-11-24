@@ -26,7 +26,7 @@ namespace DataAccess.Services.Interface
         Task<SignInResult> LoginAsync(string userName, string password);
         Task LogoutAsync();
         Task<IdentityResult> CreateUserAsync(AppUser user);
-        Task<IdentityResult> UpdateUserAsync(AppUser user);
+        Task<bool> UpdateUserAsync(AppUser user);
         Task<IdentityResult> ChangePasswordAsync(AppUser user, string oldPassword, string newPassword);
     }
 }

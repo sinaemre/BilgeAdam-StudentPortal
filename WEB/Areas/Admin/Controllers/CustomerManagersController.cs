@@ -3,6 +3,7 @@ using AutoMapper;
 using Business.Manager.Interface;
 using DataAccess.Services.Interface;
 using DTO.Concrete.CustomerManagerDTO;
+using DTO.Concrete.UserDTO;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Areas.Admin.Models.ViewModels.CustomerManagers;
 
@@ -13,11 +14,13 @@ namespace WEB.Areas.Admin.Controllers
     {
         private readonly ICMManager _customerManagerService;
         private readonly IMapper _mapper;
+        private readonly IUserManager _userManager;
 
-        public CustomerManagersController(ICMManager customerManagerService, IMapper mapper)
+        public CustomerManagersController(ICMManager customerManagerService, IMapper mapper, IUserManager userManager)
         {
             _customerManagerService = customerManagerService;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -48,14 +51,27 @@ namespace WEB.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var dto = _mapper.Map<CreateCustomerManagerDTO>(model);
-                var result = await _customerManagerService.AddAsync(dto);
-                if (result)
+                var appUserDto = _mapper.Map<CreateUserDTO>(model);
+                var resultApp = await _userManager.CreateUserAsync(appUserDto);
+                if (resultApp)
                 {
-                    TempData["Success"] = $"{dto.FirstName + " " + dto.LastName} müşteri yöneticisi sisteme kaydedilmiştir!";
-                    return RedirectToAction(nameof(Index));
+                    var resultRole = await _userManager.AddUserToRoleAsync(appUserDto.Email, "customerManager");
+                    if (resultRole)
+                    {
+                        var dto = _mapper.Map<CreateCustomerManagerDTO>(model);
+                        var result = await _customerManagerService.AddAsync(dto);
+                        if (result)
+                        {
+                            TempData["Success"] = $"{dto.FirstName + " " + dto.LastName} müşteri yöneticisi sisteme kaydedilmiştir!";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        TempData["Error"] = "Müşteri yöneticisi sisteme kayıt edilemedi!";
+                        return View(model);
+                    }
+                    TempData["Error"] = "Müşteri yöneticisi role kayıt edilemedi!";
+                    return View(model);
                 }
-                TempData["Error"] = "Müşteri yönetisi sisteme kayıt edilemedi!";
+                TempData["Error"] = "Müşteri yöneticisi sisteme kayıt edilemedi!";
                 return View(model);
             }
             TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";

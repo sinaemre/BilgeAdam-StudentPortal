@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DataAccess.Context.IdentityContext;
 
 namespace DataAccess.Services.Concrete
 {
@@ -16,11 +17,13 @@ namespace DataAccess.Services.Concrete
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly AppIdentityDbContext _context;
 
-        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public UserService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppIdentityDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
 
@@ -86,17 +89,33 @@ namespace DataAccess.Services.Concrete
             => await _userManager.GetUserAsync(claims);
 
         public async Task<AppUser> FindUserByEmailAsync(string email)
-            => await _userManager.FindByEmailAsync(email);
+        {
+            var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email && x.Status != Status.Passive);
+            return user;
+        }
 
         public async Task<AppUser> FindUserByIdAsync(Guid id)
-            => await _userManager.FindByIdAsync(id.ToString());
+        {
+            var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.Status != Status.Passive);
+            return user;
+        }
 
         public async Task<AppUser> FindUserByUserNameAsync(string userName)
-            => await _userManager.FindByNameAsync(userName);
-
+        {
+            var user = await _userManager.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserName == userName && x.Status != Status.Passive);
+            return user;
+        }
 
         public async Task<IdentityResult> AddUserToRoleAsync(AppUser user, string roleName)
-            => await _userManager.AddToRoleAsync(user, roleName);
+        {
+            var trackedUser = _context.Users.Local.FirstOrDefault(x => x.Id == user.Id);
+            if (trackedUser != null)
+            {
+                _context.Entry(trackedUser).State = EntityState.Detached;
+            }
+            
+            return await _userManager.AddToRoleAsync(user, roleName);;
+        }
 
         public async Task<IdentityResult> RemoveUserFromRoleAsync(AppUser user, string roleName)
             => await _userManager.RemoveFromRoleAsync(user, roleName);
@@ -107,11 +126,16 @@ namespace DataAccess.Services.Concrete
         public async Task<IdentityResult> CreateUserAsync(AppUser user)
             => await _userManager.CreateAsync(user);
 
-        public async Task<IdentityResult> UpdateUserAsync(AppUser user)
+        public async Task<bool> UpdateUserAsync(AppUser user)
         {
-            user.UpdatedDate = DateTime.Now;
-            user.Status = ApplicationCore.Consts.Status.Modified;
-            return await _userManager.UpdateAsync(user);
+            var entity = await _userManager.FindByIdAsync(user.Id.ToString());
+            entity.Email = user.Email;
+            entity.UpdatedDate = DateTime.Now;
+            entity.Status = Status.Modified;
+            _context.Entry(entity).OriginalValues.SetValues(entity); // Optimistic Concurrency'nin Devre Dışı Bırakılması
+            _context.Update(entity);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(AppUser user, string oldPassword, string newPassword)

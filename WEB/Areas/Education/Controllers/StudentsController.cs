@@ -7,6 +7,7 @@ using DTO.Concrete.ClassroomDTO;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.StudentDTO;
 using DTO.Concrete.TeacherDTO;
+using DTO.Concrete.UserDTO;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,8 +28,9 @@ namespace WEB.Areas.Education.Controllers
         private readonly ICourseManager _courseManager;
         private readonly IClassroomManager _classroomManager;
         private readonly ITeacherManager _teacherManager;
+        private readonly IUserManager _userManager;
 
-        public StudentsController(IStudentManager studentManager, IMapper mapper, IWebHostEnvironment webHostEnvironment, ICourseManager courseManager, IClassroomManager classroomManager, ITeacherManager teacherManager)
+        public StudentsController(IStudentManager studentManager, IMapper mapper, IWebHostEnvironment webHostEnvironment, ICourseManager courseManager, IClassroomManager classroomManager, ITeacherManager teacherManager, IUserManager userManager)
         {
             _studentManager = studentManager;
             _mapper = mapper;
@@ -36,6 +38,7 @@ namespace WEB.Areas.Education.Controllers
             _courseManager = courseManager;
             _classroomManager = classroomManager;
             _teacherManager = teacherManager;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -85,26 +88,40 @@ namespace WEB.Areas.Education.Controllers
 
             if (ModelState.IsValid)
             {
-                string imageName = "noimage.png";
-
-                if (model.Image != null)
+                var appUserDto = _mapper.Map<CreateUserDTO>(model);
+                var resultApp = await _userManager.CreateUserAsync(appUserDto);
+                if (resultApp)
                 {
-                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "img");
-                    imageName = $"{Guid.NewGuid()}_{model.FirstName}_{model.LastName}_{model.Image.FileName}";
-                    var filePath = Path.Combine(uploadDir, imageName);
-                    FileStream fileStream = new FileStream(filePath, FileMode.Create);
-                    await model.Image.CopyToAsync(fileStream);
-                    fileStream.Close();
+                    var resultRole = await _userManager.AddUserToRoleAsync(appUserDto.Email, "student");
+                    if (resultRole)
+                    {
+                        string imageName = "noimage.png";
+                        
+                        if (model.Image != null)
+                        {
+                            var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+                            imageName = $"{Guid.NewGuid()}_{model.FirstName}_{model.LastName}_{model.Image.FileName}";
+                            var filePath = Path.Combine(uploadDir, imageName);
+                            FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                            await model.Image.CopyToAsync(fileStream);
+                            fileStream.Close();
+                        }
+                        
+                        var dto = _mapper.Map<CreateStudentDTO>(model);
+                        dto.ImagePath = imageName;
+                        var result = await _studentManager.AddAsync(dto);
+                        if (result)
+                        {
+                            TempData["Success"] = $"{dto.FirstName} {dto.LastName} öğrencisi sisteme kayıt edilmiştir!";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        TempData["Error"] = "Öğrenci sisteme kaydedilemedi!";
+                        return View(model);
+                    }
+                    TempData["Error"] = "Öğrenci role kaydedilemedi!";
+                    return View(model);
                 }
-
-                var dto = _mapper.Map<CreateStudentDTO>(model);
-                dto.ImagePath = imageName;
-                var result = await _studentManager.AddAsync(dto);
-                if (result)
-                {
-                    TempData["Success"] = $"{dto.FirstName} {dto.LastName} öğrencisi sisteme kayıt edilmiştir!";
-                    return RedirectToAction(nameof(Index));
-                }
+              
                 TempData["Error"] = "Öğrenci sisteme kaydedilemedi!";
                 return View(model);
             }

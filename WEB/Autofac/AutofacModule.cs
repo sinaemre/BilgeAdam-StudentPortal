@@ -38,6 +38,7 @@ namespace WEB.Autofac
                 mc.AddProfile(new CustomerManagerMapping());
                 mc.AddProfile(new RoleMapping());
                 mc.AddProfile(new UserMapping());
+                mc.AddProfile(new AccountMapping());
 
                 mc.AddProfile(new TeacherBusinessMapping());
                 mc.AddProfile(new CourseBusinessMapping());
@@ -46,6 +47,7 @@ namespace WEB.Autofac
                 mc.AddProfile(new CustomerManagerBusinessMapping());
                 mc.AddProfile(new RoleBusinessMapping());
                 mc.AddProfile(new UserBusinessMapping());
+                mc.AddProfile(new AccountBusinessMapping());
             });
 
             IMapper mapper = mappingconfig.CreateMapper();

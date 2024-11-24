@@ -14,6 +14,8 @@ namespace Business.AutoMapper
         public UserBusinessMapping()
         {
             CreateMap<AppUser, GetUserForRoleDTO>().ReverseMap();
+            CreateMap<AppUser, GetUserDTO>().ReverseMap();
+            CreateMap<AppUser, CreateUserDTO>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,45 @@
+<div class="ms-auto d-flex">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="btn btn-outline-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Admin Paneli</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="btn btn-outline-primary" asp-controller="Account" asp-action="EditUser">Bilgileri Düzenle</a>
+        </li>
+        <li class="nav-item mx-2">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Çıkış Yap
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Çıkış Yapma Uyarısı</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Çıkış yapmak istediğinize emin misiniz?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger">Evet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item mx-2">
+            <a class="btn btn-outline-primary" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+        </li>
+    }
+</div>
