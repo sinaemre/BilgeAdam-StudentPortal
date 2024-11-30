@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Business.Manager.Interface
+@inject IStudentManager StudentManager;
+@{
+    var studentImageURL = await StudentManager.GetUserImageURL(User);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -93,17 +98,36 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
-                                <img class="img-profile rounded-circle"
-                                     src="~/img/admin.webp">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <img class="img-profile rounded-circle"
+                                    src="~/img/admin.webp">
+                                }
+                                else if (User.IsInRole("student"))
+                                {
+                                   
+                                    <img class="img-profile rounded-circle"
+                                    src="~/img/@studentImageURL">
+                                }
+                                else if (User.IsInRole("teacher"))
+                                {
+                                    <img class="img-profile rounded-circle"
+                                    src="~/img/teacher.webp">
+                                }
+                                else if (User.IsInRole("customerManager"))
+                                {
+                                    <img class="img-profile rounded-circle"
+                                         src="~/img/customerManager.jpg">
+                                }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                  aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Anasayfaya Dön
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="EditUser">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Bilgileri Düzenle
                                 </a>
@@ -148,7 +172,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Çıkış Yapma Uyarısı!</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -156,7 +180,7 @@
                 <div class="modal-body">Çıkış yapmak istediğinize emin misiniz?</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">İptal</button>
-                    <a class="btn btn-primary">Evet</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Logout" class="btn btn-danger">Evet</a>
                 </div>
             </div>
         </div>

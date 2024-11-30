@@ -6,9 +6,10 @@ namespace WEB.AutoMapper;
 
 public class AccountMapping : Profile
 {
-  public AccountMapping()
-  {
-    CreateMap<LoginVM, LoginDTO>().ReverseMap();
-    CreateMap<EditUserVM, EditUserDTO>().ReverseMap();
-  }
+    public AccountMapping()
+    {
+        CreateMap<LoginVM, LoginDTO>().ReverseMap();
+        CreateMap<EditUserVM, EditUserDTO>().ReverseMap();
+        CreateMap<ChangePasswordVM, ChangePasswordDTO>().ReverseMap();
+    }
 }

@@ -14,25 +14,25 @@ namespace Business.Manager.Concrete
         private readonly SmtpClient _smtpClient;
         public EmailSender()
         {
-            _smtpClient = new SmtpClient("smtp.gmail.com")
+            _smtpClient = new SmtpClient("smtp-relay.brevo.com")
             {
-                Port = 587,
-                Credentials = new NetworkCredential("snabkr7010@gmail.com", "geil qtea jghw ccqn"),
+                Port = 443,
+                Credentials = new NetworkCredential("80fe8b004@smtp-brevo.com", "OHrSMpz5hEPQbNAv"),
                 EnableSsl = true,
-                Timeout = 10000
+                Timeout = 20000
             };
         }
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             var mailMessage = new MailMessage
             {
-                From = new MailAddress("snabkr7010@gmail.com"),
+                From = new MailAddress("80fe8b004@smtp-brevo.com"),
                 Subject = subject,
                 Body = htmlMessage,
                 IsBodyHtml = true
             };
 
-            mailMessage.To.Add("arslanfatih3606@gmail.com");
+            mailMessage.To.Add(email);
 
             try
             {

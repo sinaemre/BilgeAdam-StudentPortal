@@ -16,6 +16,7 @@ namespace Business.Manager.Interface
         Task<List<string>> GetUserNamesHasRoleAsync(string roleName);
         Task<List<GetUserForRoleDTO>> GetUsersHasRoleAsync(string roleName);
         Task<List<GetUserForRoleDTO>> GetUsersHasNotRoleAsync(string roleName);
+        Task<Guid> GetUserIdAsync(ClaimsPrincipal claimsPrincipal);
         Task<bool> AddUserToRoleAsync(Guid userId, string roleName);
         Task<bool> AddUserToRoleAsync(string email, string roleName);
         Task<bool> RemoveUserFromRoleAsync(Guid userId, string roleName);
@@ -27,5 +28,6 @@ namespace Business.Manager.Interface
         Task<EditUserDTO> FindUserAsync(ClaimsPrincipal claims);
         Task<bool> UpdateUserAsync(EditUserDTO dto);
         Task<string> GenerateTokenForResetPassword(Guid userId);
+        Task<bool> ChangePasswordAsync(ChangePasswordDTO dto);
     }
 }

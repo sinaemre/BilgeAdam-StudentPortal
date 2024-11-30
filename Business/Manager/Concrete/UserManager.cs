@@ -158,5 +158,15 @@ namespace Business.Manager.Concrete
             var token = await _userService.GenerateTokenForResetPassword(user);
             return token;
         }
+
+        public async Task<bool> ChangePasswordAsync(ChangePasswordDTO dto)
+        {
+            var appUser = await _userService.FindUserByIdAsync(dto.Id);
+            var result = await _userService.ChangePasswordAsync(appUser, dto.OldPassword, dto.NewPassword);
+            return result.Succeeded;
+        }
+
+        public async Task<Guid> GetUserIdAsync(ClaimsPrincipal claimsPrincipal)
+            => await _userService.GetUserIdAsync(claimsPrincipal);
     }
 }

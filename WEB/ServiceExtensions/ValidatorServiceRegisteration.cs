@@ -34,6 +34,7 @@ namespace WEB.ServiceExtensions
 
             services.AddValidatorsFromAssemblyContaining<LoginValidator>();
             services.AddValidatorsFromAssemblyContaining<EditUserValidator>();
+            services.AddValidatorsFromAssemblyContaining<ChangePasswordValidator>();
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
