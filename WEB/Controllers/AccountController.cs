@@ -32,7 +32,7 @@ public class AccountController : Controller
       {
         TempData["Success"] = $"Hoşgeldiniz {model.UserName}";
         if (await _userManager.IsUserInRoleAsync(model.UserName, "admin"))
-          return RedirectToAction("Index", "Dashoard", new { area = "Admin" });
+          return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
         
         if (await _userManager.IsUserInRoleAsync(model.UserName, "customerManager") || await _userManager.IsUserInRoleAsync(model.UserName, "student") || await _userManager.IsUserInRoleAsync(model.UserName, "teacher")) 
           return RedirectToAction("Index", "Home", new { area = "Education" });

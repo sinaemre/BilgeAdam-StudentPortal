@@ -26,5 +26,6 @@ namespace Business.Manager.Interface
         Task<bool> IsUserInRoleAsync(string userName, string roleName);
         Task<EditUserDTO> FindUserAsync(ClaimsPrincipal claims);
         Task<bool> UpdateUserAsync(EditUserDTO dto);
+        Task<string> GenerateTokenForResetPassword(Guid userId);
     }
 }

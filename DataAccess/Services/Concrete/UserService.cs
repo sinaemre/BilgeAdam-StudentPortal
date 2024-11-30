@@ -146,5 +146,8 @@ namespace DataAccess.Services.Concrete
 
         public async Task LogoutAsync()
             => await _signInManager.SignOutAsync();
+
+        public async Task<string> GenerateTokenForResetPassword(AppUser appUser)
+            => await _userManager.GeneratePasswordResetTokenAsync(appUser);
     }
 }

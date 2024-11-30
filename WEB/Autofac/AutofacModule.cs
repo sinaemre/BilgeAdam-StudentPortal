@@ -5,6 +5,7 @@ using Business.Manager.Concrete;
 using Business.Manager.Interface;
 using DataAccess.Services.Concrete;
 using DataAccess.Services.Interface;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using WEB.AutoMapper;
 
 namespace WEB.Autofac
@@ -53,6 +54,7 @@ namespace WEB.Autofac
             IMapper mapper = mappingconfig.CreateMapper();
             builder.RegisterInstance<IMapper>(mapper);
 
+            builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
         }
     }
 }

@@ -151,6 +151,12 @@ namespace Business.Manager.Concrete
             var userName = $"{userNamePart1}.{userNamePart2}";
             return userName;
         }
-        
+
+        public async Task<string> GenerateTokenForResetPassword(Guid userId)
+        {
+            var user = await _userService.FindUserByIdAsync(userId);
+            var token = await _userService.GenerateTokenForResetPassword(user);
+            return token;
+        }
     }
 }

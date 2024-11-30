@@ -5,6 +5,8 @@ using Business.Manager.Interface;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.TeacherDTO;
 using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +22,15 @@ namespace WEB.Areas.Education.Controllers
         private readonly IMapper _mapper;
         private readonly ICourseManager _courseManager;
         private readonly IUserManager _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public TeachersController(ITeacherManager teacherManager, IMapper mapper, ICourseManager courseManager, IUserManager userManager)
+        public TeachersController(ITeacherManager teacherManager, IMapper mapper, ICourseManager courseManager, IUserManager userManager, IEmailSender emailSender)
         {
             _teacherManager = teacherManager;
             _mapper = mapper;
             _courseManager = courseManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -77,10 +81,20 @@ namespace WEB.Areas.Education.Controllers
                     var resultRole = await _userManager.AddUserToRoleAsync(appUserDto.Email, "teacher");
                     if (resultRole)
                     {
+                        var appUser = await _userManager.FindUserByEmailAsync(appUserDto.Email);
                         var dto = _mapper.Map<CreateTeacherDTO>(model);
+                        dto.AppUserId = appUser.Id;
                         var result = await _teacherManager.AddAsync(dto);
                         if (result)
                         {
+                            var token = await _userManager.GenerateTokenForResetPassword(appUser.Id);
+
+                            var callBackURL = Url.Action("CreatePassword", "Account", new { token, email = appUser.Email }, Request.Scheme);
+
+                            var message = $" <p>Kullanıcı Adınız: {appUser.UserName}</p><br>    <p>Şifreniz: 1234</p><br><p>Lütfen şifrenizi sıfırlamak için <a href=\"{callBackURL}\">buraya tıklayınız!</a> </p>";
+
+                            await _emailSender.SendEmailAsync(appUser.Email, "Yeni Kayıt Oluşturma Şifre Değişikliği", message);
+
                             TempData["Success"] = $"{model.FirstName} {model.LastName} eğitmeni sisteme kaydedilmiştir!";
                             return RedirectToAction(nameof(Index));
                         }
