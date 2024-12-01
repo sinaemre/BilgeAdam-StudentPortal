@@ -3,17 +3,20 @@ using System;
 using DataAccess.Context.IdentityContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataAccess.Context.IdentityContext.Migrations
+namespace DataAccess.IdentityContext
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241201102719_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +32,6 @@ namespace DataAccess.Context.IdentityContext.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
@@ -64,7 +66,7 @@ namespace DataAccess.Context.IdentityContext.Migrations
                         new
                         {
                             Id = new Guid("5ba59a20-2057-4a8a-a417-80c119f79971"),
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 33, 50, DateTimeKind.Utc).AddTicks(6789),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7850),
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -72,7 +74,7 @@ namespace DataAccess.Context.IdentityContext.Migrations
                         new
                         {
                             Id = new Guid("bf6a5a19-2bc4-4e47-af9a-c52f4936cc4c"),
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 33, 50, DateTimeKind.Utc).AddTicks(6844),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7889),
                             Name = "customerManager",
                             NormalizedName = "CUSTOMERMANAGER",
                             Status = 1
@@ -80,7 +82,7 @@ namespace DataAccess.Context.IdentityContext.Migrations
                         new
                         {
                             Id = new Guid("87fb18de-280e-48bc-abc7-80eef7448fe4"),
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 33, 50, DateTimeKind.Utc).AddTicks(6847),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7892),
                             Name = "teacher",
                             NormalizedName = "TEACHER",
                             Status = 1
@@ -88,7 +90,7 @@ namespace DataAccess.Context.IdentityContext.Migrations
                         new
                         {
                             Id = new Guid("754ee8ce-7cd4-4ebb-989f-36d3de20772e"),
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 33, 50, DateTimeKind.Utc).AddTicks(6982),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7894),
                             Name = "student",
                             NormalizedName = "STUDENT",
                             Status = 1
@@ -126,6 +128,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstPassword")
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
@@ -188,8 +193,8 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             Id = new Guid("5db9b8aa-54c3-4b7a-a102-b21207d6646c"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "519eee9e-031c-40b1-837e-34d2175b73dc",
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 32, 424, DateTimeKind.Utc).AddTicks(2767),
+                            ConcurrencyStamp = "afc7b942-1e3c-44f6-9c80-5aa8dcb7fac7",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 208, DateTimeKind.Local).AddTicks(8968),
                             Email = "admin@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Administrator",
@@ -197,9 +202,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@BILGEADAM.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELhsBwaqb0f7BMrivtsRMISrXZzTOB1Ptc0I4OARptswCwF047bk3pQfTqAE4HnYoA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELrHV2vn6a2i4vicpUPqar3AMEz9dLMPLD7wD3jhW/vwaGaehjgvajr1309ITxResQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8a6b2739-2c2c-4825-b542-409e56e4a0d4",
+                            SecurityStamp = "085f5d3c-d671-4114-9f4b-8bcba9fa26fb",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -209,8 +214,8 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             Id = new Guid("79c7f482-f112-4024-aa6c-05df190ce3ff"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9194edef-a34b-4cc9-84e4-3cdd4d212daf",
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 32, 561, DateTimeKind.Utc).AddTicks(4681),
+                            ConcurrencyStamp = "f7279363-769d-457c-bfe9-e8b447218518",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 331, DateTimeKind.Local).AddTicks(1752),
                             Email = "pelin.ozerserdar@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Pelin",
@@ -218,9 +223,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PELIN.OZERSERDAR@BILGEADAM.COM",
                             NormalizedUserName = "PELIN.OZERSERDAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAiIEX1sBtunFKPlR2DNVGyl6WygLIH+4peOqXDnK5+Ap1/BRjNCHGoKnF/u1hfFlw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNeDA6bYadVdkQSfhh3Kb/oFpcGiJX+hGeCwUVHMcH/jJBEt2yGHrk2gmPE2/mIRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5f856662-06e6-4051-a91e-0ef0702e7d0d",
+                            SecurityStamp = "c9a4437b-916e-4984-86c3-c8fd66f7ef48",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "pelin.ozerserdar"
@@ -230,8 +235,8 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             Id = new Guid("f2d17592-2c75-4a38-a8db-07e13fc4778f"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "931348e7-be49-46b4-ad3c-0df33217011f",
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 32, 683, DateTimeKind.Utc).AddTicks(5466),
+                            ConcurrencyStamp = "1150c1af-19e6-487e-b9bc-e5d6e1ab80c6",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 451, DateTimeKind.Local).AddTicks(6622),
                             Email = "sinaemre.bekar@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Sina Emre",
@@ -239,9 +244,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SINAEMRE.BEKAR@BILGEADAM.COM",
                             NormalizedUserName = "SINAEMRE.BEKAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAENh+Ke5nb7WasY/6aj4YwYY1l1ZwtQpHEDyLQkmRVeV3syuKypUGi8YSyNm7JEYyNA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG4ZNBLEaeLadBntnmLJAqqp+daE48dRJ3Mu9B/sRkOatVUtj4nqWmaimK9ThSSHUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9456b472-f5ef-4616-b315-36e14e0754e9",
+                            SecurityStamp = "a76132a6-e582-40f3-9009-fea525e1f93f",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "sinaemre.bekar"
@@ -251,8 +256,8 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             Id = new Guid("389a9486-374b-4a4b-85ef-b2faed25f907"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e70263d6-184b-48cf-bc6e-1acde4075eb0",
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 32, 806, DateTimeKind.Utc).AddTicks(7580),
+                            ConcurrencyStamp = "6ad2c0d9-a91a-4632-a182-69b91613d242",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 574, DateTimeKind.Local).AddTicks(2037),
                             Email = "perin.aycilsahin@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Perin",
@@ -260,9 +265,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PERIN.AYCILSAHIN@BILGEADAM.COM",
                             NormalizedUserName = "PERIN.AYCILSAHIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIXgJkRgocaXwHOhXI4LgisFxgrFB7wOQQlzjLKf2cNjATi1EhcYycYkVbAc8fZ0CA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELY9R5d53ozHEbhyOetYoExbj8iNkmoV2EclNHqr1xnJSihos5zA3dvVeJsVFe0yHQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "52cda167-517c-4b86-8a39-7dbc9274c352",
+                            SecurityStamp = "0ffa9a7e-6bad-4539-9300-39bc30993c5f",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "perin.aycilsahin"
@@ -272,8 +277,8 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             Id = new Guid("ca21aa0d-b8b7-433c-89f6-bc2480a694d1"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "13d442d3-0e18-46f9-a3bb-4c65d182748e",
-                            CreatedDate = new DateTime(2024, 10, 26, 11, 35, 32, 928, DateTimeKind.Utc).AddTicks(6896),
+                            ConcurrencyStamp = "a27579ba-4b86-4364-9e46-cc78c378527e",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 696, DateTimeKind.Local).AddTicks(3972),
                             Email = "ahmet.cekic@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Ahmet",
@@ -281,9 +286,9 @@ namespace DataAccess.Context.IdentityContext.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMET.CEKIC@BILGEADAM.COM",
                             NormalizedUserName = "AHMET.CEKIC",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOojawf57ilUpHBhG0gjtOQPtCkgg0X0E6WvOlXve3+IY4oD5J8k/bkdhNtZijQf5Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIbuzuBQoabsWpyXis2E5J3Aw5DupNNr7pB6Wd0su5yhLSP4rwCMTAyc7EOKheH21g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7178b4b9-910a-4740-9b65-7c8404c832cf",
+                            SecurityStamp = "37890170-9458-4501-bb96-ed6cb942de0e",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "ahmet.cekic"

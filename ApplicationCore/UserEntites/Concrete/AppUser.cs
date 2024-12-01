@@ -24,5 +24,6 @@ namespace ApplicationCore.UserEntites.Concrete
         public DateTime? UpdatedDate { get; set; }
         public DateTime? DeletedDate { get; set; }
         public Status Status { get => _status; set => _status = value; }
+        public string? FirstPassword { get; set; }
     }
 }

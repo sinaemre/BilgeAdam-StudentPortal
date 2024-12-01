@@ -55,7 +55,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(x =>
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
 {
-    options.TokenLifespan = TimeSpan.FromMinutes(1);
+    options.TokenLifespan = TimeSpan.FromMinutes(10);
 });
 
 var app = builder.Build();

@@ -22,8 +22,7 @@ namespace DataAccess.SeedData.EntitySeedData
                         LastName = "Özer Serdar",
                         BirthDate = new DateTime(1994, 05, 06),
                         Email = "pelin.ozerserdar@bilgeadam.com",
-                        HireDate = new DateTime(2023, 05, 05),
-                        AppUserId = Guid.Parse("79c7f482-f112-4024-aa6c-05df190ce3ff")
+                        HireDate = new DateTime(2023, 05, 05)
                     }
                 );
         }

@@ -141,7 +141,7 @@ public class AccountController : Controller
         return View(model);
     }
 
-    [HttpPost, ValidateAntiForgeryToken, ValidateTokenExpiryFilter]
+    [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> CreatePassword(CreatePasswordVM model)
     {
         if (ModelState.IsValid) 

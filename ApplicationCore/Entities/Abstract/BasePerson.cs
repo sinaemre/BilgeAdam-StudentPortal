@@ -11,9 +11,6 @@ namespace ApplicationCore.Entities.Abstract
     public abstract class BasePerson : BaseEntity
     {
         [Required]
-        public Guid AppUserId { get; set; }
-
-        [Required]
         [MaxLength(100)]
         [MinLength(2)]
         public string FirstName { get; set; }

@@ -13,7 +13,6 @@ namespace DTO.Concrete.StudentDTO
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public Guid? AppUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -9,7 +9,6 @@ namespace DTO.Concrete.CustomerManagerDTO
 {
     public class CreateCustomerManagerDTO : BaseDTO
     {
-        public Guid? AppUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

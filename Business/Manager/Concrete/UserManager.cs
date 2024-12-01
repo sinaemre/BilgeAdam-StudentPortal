@@ -71,7 +71,9 @@ namespace Business.Manager.Concrete
         public async Task<bool> CreateUserAsync(CreateUserDTO user)
         {
             var appUser = _mapper.Map<AppUser>(user);
-            appUser.PasswordHash = _passwordHasher.HashPassword(appUser, "1234");
+            var password = GenerateRandomPassword(12);
+            appUser.FirstPassword = password;
+            appUser.PasswordHash = _passwordHasher.HashPassword(appUser, password);
             appUser.UserName = CreateUserName(user.FirstName, user.LastName);
             var result = await _userService.CreateUserAsync(appUser);
             return result.Succeeded;
@@ -181,6 +183,31 @@ namespace Business.Manager.Concrete
             var appUser = await _userService.FindUserByEmailAsync(user.Email);
             var result = await _userService.IsTokenValid(appUser, token);
             return result;
+        }
+
+        private string GenerateRandomPassword(int length = 12)
+        {
+            const string lowerCase = "abcdefghijklmnopqrstvwyz";
+            const string upperCase = "ABCDEFGHIJKLMNOPQRSTVWYZ";
+            const string digits = "0123456789";
+            const string specialChars = "!@#$%&.*()/-+=<>?,-_";
+
+            string allChars = lowerCase + upperCase + digits + specialChars;
+
+            var random = new Random();
+            var password = new char[length];
+
+            password[0] = lowerCase[random.Next(lowerCase.Length)];
+            password[1] = upperCase[random.Next(upperCase.Length)];
+            password[2] = digits[random.Next(digits.Length)];
+            password[3] = specialChars[random.Next(specialChars.Length)];
+
+            for (int i = 4; i < length; i++)
+            {
+                password[i] = allChars[random.Next(allChars.Length)];
+            }
+
+            return new string(password);
         }
     }
 }

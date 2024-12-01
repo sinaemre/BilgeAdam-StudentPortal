@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DataAccess.Migrations
+namespace DataAccess.ApplicationContext.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -40,7 +40,6 @@ namespace DataAccess.Migrations
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
@@ -62,7 +61,6 @@ namespace DataAccess.Migrations
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
@@ -122,7 +120,6 @@ namespace DataAccess.Migrations
                     UpdatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
                     FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
@@ -144,32 +141,32 @@ namespace DataAccess.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "Status", "TotalHour", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(5220), null, ".NET", 1, 320, null },
-                    { new Guid("ed370602-3323-4299-87dd-e46f12b087b6"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(5251), null, "Java", 1, 250, null }
+                    { new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(6987), null, ".NET", 1, 320, null },
+                    { new Guid("ed370602-3323-4299-87dd-e46f12b087b6"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7019), null, "Java", 1, 250, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "CustomerManagers",
-                columns: new[] { "Id", "AppUserId", "BirthDate", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
-                values: new object[] { new Guid("b5e91485-819d-4684-8422-fdf4053d8857"), new Guid("79c7f482-f112-4024-aa6c-05df190ce3ff"), new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(5613), null, "pelin.ozerserdar@bilgeadam.com", "Pelin", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Özer Serdar", 1, null });
+                columns: new[] { "Id", "BirthDate", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
+                values: new object[] { new Guid("b5e91485-819d-4684-8422-fdf4053d8857"), new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7433), null, "pelin.ozerserdar@bilgeadam.com", "Pelin", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Özer Serdar", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Teachers",
-                columns: new[] { "Id", "AppUserId", "BirthDate", "CourseId", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
-                values: new object[] { new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), new Guid("f2d17592-2c75-4a38-a8db-07e13fc4778f"), new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(5846), null, "sinaemre.bekar@bilgeadam.com", "Sina Emre", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bekar", 1, null });
+                columns: new[] { "Id", "BirthDate", "CourseId", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
+                values: new object[] { new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7610), null, "sinaemre.bekar@bilgeadam.com", "Sina Emre", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bekar", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Classrooms",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "EndDate", "Name", "StartDate", "Status", "TeacherId", "UpdatedDate" },
-                values: new object[] { new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(6028), null, "Yaz Dönemi Sınıfı", null, "YZL-8443", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), null });
+                values: new object[] { new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7775), null, "Yaz Dönemi Sınıfı", null, "YZL-8443", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), null });
 
             migrationBuilder.InsertData(
                 table: "Students",
-                columns: new[] { "Id", "AppUserId", "BirthDate", "ClassroomId", "CreatedDate", "DeletedDate", "Email", "Exam1", "Exam2", "FirstName", "ImagePath", "LastName", "ProjectExam", "ProjectName", "ProjectPath", "RegisterPrice", "Status", "UpdatedDate" },
+                columns: new[] { "Id", "BirthDate", "ClassroomId", "CreatedDate", "DeletedDate", "Email", "Exam1", "Exam2", "FirstName", "ImagePath", "LastName", "ProjectExam", "ProjectName", "ProjectPath", "RegisterPrice", "Status", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("257636f5-41e3-4401-9a31-7238f5d7b0af"), new Guid("ca21aa0d-b8b7-433c-89f6-bc2480a694d1"), new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(6210), null, "ahmet.cekic@bilgeadam.com", null, null, "Ahmet", null, "Çekiç", null, null, null, 110000.0, 1, null },
-                    { new Guid("9286ae43-cab9-48fc-8183-421ead3232be"), new Guid("389a9486-374b-4a4b-85ef-b2faed25f907"), new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 11, 16, 14, 41, 27, 76, DateTimeKind.Local).AddTicks(6199), null, "perin.aycilsahin@bilgeadam.com", null, null, "Perin", null, "Aycil Şahin", null, null, null, 120000.0, 1, null }
+                    { new Guid("257636f5-41e3-4401-9a31-7238f5d7b0af"), new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7972), null, "ahmet.cekic@bilgeadam.com", null, null, "Ahmet", null, "Çekiç", null, null, null, 110000.0, 1, null },
+                    { new Guid("9286ae43-cab9-48fc-8183-421ead3232be"), new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7949), null, "perin.aycilsahin@bilgeadam.com", null, null, "Perin", null, "Aycil Şahin", null, null, null, 120000.0, 1, null }
                 });
 
             migrationBuilder.CreateIndex(

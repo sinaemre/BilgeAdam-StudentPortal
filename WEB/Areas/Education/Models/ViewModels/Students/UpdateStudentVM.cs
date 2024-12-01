@@ -6,7 +6,6 @@ namespace WEB.Areas.Education.Models.ViewModels.Students
     public class UpdateStudentVM
     {
         public Guid Id { get; set; }
-        public Guid? AppUserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 

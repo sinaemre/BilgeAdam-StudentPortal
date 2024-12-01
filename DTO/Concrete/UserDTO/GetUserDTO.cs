@@ -14,5 +14,6 @@ namespace DTO.Concrete.UserDTO
         public DateTime BirthDate { get; set; }
         public string? UserName { get; set; }
         public string Email { get; set; }
+        public string? FirstPassword { get; set; }
     }
 }

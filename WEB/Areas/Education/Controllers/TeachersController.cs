@@ -83,14 +83,14 @@ namespace WEB.Areas.Education.Controllers
                     {
                         var appUser = await _userManager.FindUserByEmailAsync(appUserDto.Email);
                         var dto = _mapper.Map<CreateTeacherDTO>(model);
-                        dto.AppUserId = appUser.Id;
                         var result = await _teacherManager.AddAsync(dto);
                         if (result)
                         {
                             var token = await _userManager.GenerateTokenForResetPassword(appUser.Id);
-                            var callBackURL = Url.Action("CreatePassword", "Account", new { area=string.Empty, token, email = appUser.Email }, Request.Scheme);
+                            var callBackURL = Url.Action("CreatePassword", "Account", 
+                                new { area=string.Empty, token, email = appUser.Email }, Request.Scheme);
 
-                            var message = $" <p>Kullanıcı Adınız: {appUser.UserName}</p><br>    <p>Şifreniz: 1234</p><br><p>Lütfen şifrenizi sıfırlamak için <a href=\"{callBackURL}\">buraya tıklayınız!</a> </p>";
+                            var message = $" <p>Kullanıcı Adınız: {appUser.UserName}</p><br>    <p>Şifreniz: {appUser.FirstPassword}</p><br><p>Lütfen şifrenizi sıfırlamak için <a href=\"{callBackURL}\">buraya tıklayınız!</a> </p>";
 
                             await _emailSender.SendEmailAsync(appUser.Email, "Yeni Kayıt Oluşturma Şifre Değişikliği", message);
 
