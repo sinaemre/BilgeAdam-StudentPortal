@@ -3,20 +3,17 @@ using System;
 using DataAccess.Context.ApplicationContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataAccess.ApplicationContext.Migrations
+namespace DataAccess.Context.ApplicationContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241201102620_Init")]
-    partial class Init
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +69,7 @@ namespace DataAccess.ApplicationContext.Migrations
                         new
                         {
                             Id = new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7775),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5449),
                             Description = "Yaz Dönemi Sınıfı",
                             Name = "YZL-8443",
                             StartDate = new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -115,7 +112,7 @@ namespace DataAccess.ApplicationContext.Migrations
                         new
                         {
                             Id = new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(6987),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(4652),
                             Name = ".NET",
                             Status = 1,
                             TotalHour = 320
@@ -123,7 +120,7 @@ namespace DataAccess.ApplicationContext.Migrations
                         new
                         {
                             Id = new Guid("ed370602-3323-4299-87dd-e46f12b087b6"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7019),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(4684),
                             Name = "Java",
                             Status = 1,
                             TotalHour = 250
@@ -177,7 +174,7 @@ namespace DataAccess.ApplicationContext.Migrations
                         {
                             Id = new Guid("b5e91485-819d-4684-8422-fdf4053d8857"),
                             BirthDate = new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7433),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5072),
                             Email = "pelin.ozerserdar@bilgeadam.com",
                             FirstName = "Pelin",
                             HireDate = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -257,7 +254,7 @@ namespace DataAccess.ApplicationContext.Migrations
                             Id = new Guid("9286ae43-cab9-48fc-8183-421ead3232be"),
                             BirthDate = new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ClassroomId = new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7949),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5628),
                             Email = "perin.aycilsahin@bilgeadam.com",
                             FirstName = "Perin",
                             LastName = "Aycil Şahin",
@@ -269,7 +266,7 @@ namespace DataAccess.ApplicationContext.Migrations
                             Id = new Guid("257636f5-41e3-4401-9a31-7238f5d7b0af"),
                             BirthDate = new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ClassroomId = new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7972),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5639),
                             Email = "ahmet.cekic@bilgeadam.com",
                             FirstName = "Ahmet",
                             LastName = "Çekiç",
@@ -331,7 +328,7 @@ namespace DataAccess.ApplicationContext.Migrations
                             Id = new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"),
                             BirthDate = new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CourseId = new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7610),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5273),
                             Email = "sinaemre.bekar@bilgeadam.com",
                             FirstName = "Sina Emre",
                             HireDate = new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),

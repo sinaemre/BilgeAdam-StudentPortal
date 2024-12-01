@@ -60,7 +60,7 @@ public class AccountController : Controller
 
     public async Task<IActionResult> EditUser()
     {
-        var dto = await _userManager.FindUserAsync(HttpContext.User);
+        var dto = await _userManager.FindUserAsync<EditUserDTO>(HttpContext.User);
         if (dto != null)
         {
             var model = _mapper.Map<EditUserVM>(dto);

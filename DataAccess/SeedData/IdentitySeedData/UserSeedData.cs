@@ -27,7 +27,8 @@ namespace DataAccess.SeedData.IdentitySeedData
                 Email = "admin@bilgeadam.com",
                 NormalizedEmail = "ADMIN@BILGEADAM.COM",
                 PasswordHash = hasher.HashPassword(null, "123"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                HasPasswordChanged = true
             };
 
             var customerManager = new AppUser
@@ -41,7 +42,8 @@ namespace DataAccess.SeedData.IdentitySeedData
                 Email = "pelin.ozerserdar@bilgeadam.com",
                 NormalizedEmail = "PELIN.OZERSERDAR@BILGEADAM.COM",
                 PasswordHash = hasher.HashPassword(null, "123"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                HasPasswordChanged = true
             };
 
             var teacher = new AppUser
@@ -55,7 +57,8 @@ namespace DataAccess.SeedData.IdentitySeedData
                 Email = "sinaemre.bekar@bilgeadam.com",
                 NormalizedEmail = "SINAEMRE.BEKAR@BILGEADAM.COM",
                 PasswordHash = hasher.HashPassword(null, "123"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                HasPasswordChanged = true
             };
 
             var student1 = new AppUser
@@ -69,7 +72,8 @@ namespace DataAccess.SeedData.IdentitySeedData
                 Email = "perin.aycilsahin@bilgeadam.com",
                 NormalizedEmail = "PERIN.AYCILSAHIN@BILGEADAM.COM",
                 PasswordHash = hasher.HashPassword(null, "123"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                HasPasswordChanged = true
             };
 
             var student2 = new AppUser
@@ -83,7 +87,8 @@ namespace DataAccess.SeedData.IdentitySeedData
                 Email = "ahmet.cekic@bilgeadam.com",
                 NormalizedEmail = "AHMET.CEKIC@BILGEADAM.COM",
                 PasswordHash = hasher.HashPassword(null, "123"),
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
+                HasPasswordChanged = true
             };
 
             builder.HasData(admin, customerManager, teacher, student1, student2);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DataAccess.ApplicationContext.Migrations
+namespace DataAccess.Context.ApplicationContext.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -141,32 +141,32 @@ namespace DataAccess.ApplicationContext.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Name", "Status", "TotalHour", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(6987), null, ".NET", 1, 320, null },
-                    { new Guid("ed370602-3323-4299-87dd-e46f12b087b6"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7019), null, "Java", 1, 250, null }
+                    { new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(4652), null, ".NET", 1, 320, null },
+                    { new Guid("ed370602-3323-4299-87dd-e46f12b087b6"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(4684), null, "Java", 1, 250, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "CustomerManagers",
                 columns: new[] { "Id", "BirthDate", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
-                values: new object[] { new Guid("b5e91485-819d-4684-8422-fdf4053d8857"), new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7433), null, "pelin.ozerserdar@bilgeadam.com", "Pelin", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Özer Serdar", 1, null });
+                values: new object[] { new Guid("b5e91485-819d-4684-8422-fdf4053d8857"), new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5072), null, "pelin.ozerserdar@bilgeadam.com", "Pelin", new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "Özer Serdar", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Teachers",
                 columns: new[] { "Id", "BirthDate", "CourseId", "CreatedDate", "DeletedDate", "Email", "FirstName", "HireDate", "LastName", "Status", "UpdatedDate" },
-                values: new object[] { new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7610), null, "sinaemre.bekar@bilgeadam.com", "Sina Emre", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bekar", 1, null });
+                values: new object[] { new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("a1c775f9-0097-4dec-ab1e-9437a81beaff"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5273), null, "sinaemre.bekar@bilgeadam.com", "Sina Emre", new DateTime(2022, 6, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bekar", 1, null });
 
             migrationBuilder.InsertData(
                 table: "Classrooms",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "EndDate", "Name", "StartDate", "Status", "TeacherId", "UpdatedDate" },
-                values: new object[] { new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7775), null, "Yaz Dönemi Sınıfı", null, "YZL-8443", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), null });
+                values: new object[] { new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5449), null, "Yaz Dönemi Sınıfı", null, "YZL-8443", new DateTime(2024, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new Guid("4b838da2-ec21-4d9b-8740-dc375130e3b0"), null });
 
             migrationBuilder.InsertData(
                 table: "Students",
                 columns: new[] { "Id", "BirthDate", "ClassroomId", "CreatedDate", "DeletedDate", "Email", "Exam1", "Exam2", "FirstName", "ImagePath", "LastName", "ProjectExam", "ProjectName", "ProjectPath", "RegisterPrice", "Status", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("257636f5-41e3-4401-9a31-7238f5d7b0af"), new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7972), null, "ahmet.cekic@bilgeadam.com", null, null, "Ahmet", null, "Çekiç", null, null, null, 110000.0, 1, null },
-                    { new Guid("9286ae43-cab9-48fc-8183-421ead3232be"), new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 26, 19, 551, DateTimeKind.Local).AddTicks(7949), null, "perin.aycilsahin@bilgeadam.com", null, null, "Perin", null, "Aycil Şahin", null, null, null, 120000.0, 1, null }
+                    { new Guid("257636f5-41e3-4401-9a31-7238f5d7b0af"), new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5639), null, "ahmet.cekic@bilgeadam.com", null, null, "Ahmet", null, "Çekiç", null, null, null, 110000.0, 1, null },
+                    { new Guid("9286ae43-cab9-48fc-8183-421ead3232be"), new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("4a7cbc57-034e-4511-8e42-ddc5ba586438"), new DateTime(2024, 12, 1, 13, 58, 25, 537, DateTimeKind.Local).AddTicks(5628), null, "perin.aycilsahin@bilgeadam.com", null, null, "Perin", null, "Aycil Şahin", null, null, null, 120000.0, 1, null }
                 });
 
             migrationBuilder.CreateIndex(

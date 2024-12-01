@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace DataAccess.IdentityContext
+namespace DataAccess.Context.IdentityContext.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -45,6 +45,7 @@ namespace DataAccess.IdentityContext
                     DeletedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     FirstPassword = table.Column<string>(type: "text", nullable: true),
+                    HasPasswordChanged = table.Column<bool>(type: "boolean", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -176,22 +177,22 @@ namespace DataAccess.IdentityContext
                 columns: new[] { "Id", "ConcurrencyStamp", "CreatedDate", "DeletedDate", "Name", "NormalizedName", "Status", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("5ba59a20-2057-4a8a-a417-80c119f79971"), null, new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7850), null, "admin", "ADMIN", 1, null },
-                    { new Guid("754ee8ce-7cd4-4ebb-989f-36d3de20772e"), null, new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7894), null, "student", "STUDENT", 1, null },
-                    { new Guid("87fb18de-280e-48bc-abc7-80eef7448fe4"), null, new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7892), null, "teacher", "TEACHER", 1, null },
-                    { new Guid("bf6a5a19-2bc4-4e47-af9a-c52f4936cc4c"), null, new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7889), null, "customerManager", "CUSTOMERMANAGER", 1, null }
+                    { new Guid("5ba59a20-2057-4a8a-a417-80c119f79971"), null, new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(482), null, "admin", "ADMIN", 1, null },
+                    { new Guid("754ee8ce-7cd4-4ebb-989f-36d3de20772e"), null, new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(523), null, "student", "STUDENT", 1, null },
+                    { new Guid("87fb18de-280e-48bc-abc7-80eef7448fe4"), null, new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(520), null, "teacher", "TEACHER", 1, null },
+                    { new Guid("bf6a5a19-2bc4-4e47-af9a-c52f4936cc4c"), null, new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(517), null, "customerManager", "CUSTOMERMANAGER", 1, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "CreatedDate", "DeletedDate", "Email", "EmailConfirmed", "FirstName", "FirstPassword", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UpdatedDate", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "CreatedDate", "DeletedDate", "Email", "EmailConfirmed", "FirstName", "FirstPassword", "HasPasswordChanged", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UpdatedDate", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("389a9486-374b-4a4b-85ef-b2faed25f907"), 0, new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "6ad2c0d9-a91a-4632-a182-69b91613d242", new DateTime(2024, 12, 1, 13, 27, 18, 574, DateTimeKind.Local).AddTicks(2037), null, "perin.aycilsahin@bilgeadam.com", false, "Perin", null, "Aycil Şahin", false, null, "PERIN.AYCILSAHIN@BILGEADAM.COM", "PERIN.AYCILSAHIN", "AQAAAAIAAYagAAAAELY9R5d53ozHEbhyOetYoExbj8iNkmoV2EclNHqr1xnJSihos5zA3dvVeJsVFe0yHQ==", null, false, "0ffa9a7e-6bad-4539-9300-39bc30993c5f", 1, false, null, "perin.aycilsahin" },
-                    { new Guid("5db9b8aa-54c3-4b7a-a102-b21207d6646c"), 0, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "afc7b942-1e3c-44f6-9c80-5aa8dcb7fac7", new DateTime(2024, 12, 1, 13, 27, 18, 208, DateTimeKind.Local).AddTicks(8968), null, "admin@bilgeadam.com", false, "Administrator", null, "Admin", false, null, "ADMIN@BILGEADAM.COM", "ADMIN", "AQAAAAIAAYagAAAAELrHV2vn6a2i4vicpUPqar3AMEz9dLMPLD7wD3jhW/vwaGaehjgvajr1309ITxResQ==", null, false, "085f5d3c-d671-4114-9f4b-8bcba9fa26fb", 1, false, null, "admin" },
-                    { new Guid("79c7f482-f112-4024-aa6c-05df190ce3ff"), 0, new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "f7279363-769d-457c-bfe9-e8b447218518", new DateTime(2024, 12, 1, 13, 27, 18, 331, DateTimeKind.Local).AddTicks(1752), null, "pelin.ozerserdar@bilgeadam.com", false, "Pelin", null, "Özer Serdar", false, null, "PELIN.OZERSERDAR@BILGEADAM.COM", "PELIN.OZERSERDAR", "AQAAAAIAAYagAAAAEMNeDA6bYadVdkQSfhh3Kb/oFpcGiJX+hGeCwUVHMcH/jJBEt2yGHrk2gmPE2/mIRw==", null, false, "c9a4437b-916e-4984-86c3-c8fd66f7ef48", 1, false, null, "pelin.ozerserdar" },
-                    { new Guid("ca21aa0d-b8b7-433c-89f6-bc2480a694d1"), 0, new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "a27579ba-4b86-4364-9e46-cc78c378527e", new DateTime(2024, 12, 1, 13, 27, 18, 696, DateTimeKind.Local).AddTicks(3972), null, "ahmet.cekic@bilgeadam.com", false, "Ahmet", null, "Çekiç", false, null, "AHMET.CEKIC@BILGEADAM.COM", "AHMET.CEKIC", "AQAAAAIAAYagAAAAEIbuzuBQoabsWpyXis2E5J3Aw5DupNNr7pB6Wd0su5yhLSP4rwCMTAyc7EOKheH21g==", null, false, "37890170-9458-4501-bb96-ed6cb942de0e", 1, false, null, "ahmet.cekic" },
-                    { new Guid("f2d17592-2c75-4a38-a8db-07e13fc4778f"), 0, new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "1150c1af-19e6-487e-b9bc-e5d6e1ab80c6", new DateTime(2024, 12, 1, 13, 27, 18, 451, DateTimeKind.Local).AddTicks(6622), null, "sinaemre.bekar@bilgeadam.com", false, "Sina Emre", null, "Bekar", false, null, "SINAEMRE.BEKAR@BILGEADAM.COM", "SINAEMRE.BEKAR", "AQAAAAIAAYagAAAAEG4ZNBLEaeLadBntnmLJAqqp+daE48dRJ3Mu9B/sRkOatVUtj4nqWmaimK9ThSSHUg==", null, false, "a76132a6-e582-40f3-9009-fea525e1f93f", 1, false, null, "sinaemre.bekar" }
+                    { new Guid("389a9486-374b-4a4b-85ef-b2faed25f907"), 0, new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "ee4af4cc-60ee-4a6a-b20d-19e92268ade6", new DateTime(2024, 12, 1, 13, 58, 55, 176, DateTimeKind.Local).AddTicks(5103), null, "perin.aycilsahin@bilgeadam.com", false, "Perin", null, true, "Aycil Şahin", false, null, "PERIN.AYCILSAHIN@BILGEADAM.COM", "PERIN.AYCILSAHIN", "AQAAAAIAAYagAAAAEFQ4EefLZMB3P6g+W02KfGpW8xjwRveFVE/VJE8hGI2im9+CyAblui7UNjeXRe+erg==", null, false, "f381c499-8257-486d-bb99-c1d575ffa115", 1, false, null, "perin.aycilsahin" },
+                    { new Guid("5db9b8aa-54c3-4b7a-a102-b21207d6646c"), 0, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "e95b66af-6cd2-452a-9f9f-d0c1d665b467", new DateTime(2024, 12, 1, 13, 58, 54, 792, DateTimeKind.Local).AddTicks(9416), null, "admin@bilgeadam.com", false, "Administrator", null, true, "Admin", false, null, "ADMIN@BILGEADAM.COM", "ADMIN", "AQAAAAIAAYagAAAAELSioSlYmcqZVb8yzPrHIL3XnzHvmpIXU3OSQZqg5kjL8pVGqZB+6+oCv9VJdeTkaA==", null, false, "730ffc3e-af76-4b2f-8082-9660591bf751", 1, false, null, "admin" },
+                    { new Guid("79c7f482-f112-4024-aa6c-05df190ce3ff"), 0, new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), "07198550-34b3-4492-890b-e0efd4b963ff", new DateTime(2024, 12, 1, 13, 58, 54, 920, DateTimeKind.Local).AddTicks(9340), null, "pelin.ozerserdar@bilgeadam.com", false, "Pelin", null, true, "Özer Serdar", false, null, "PELIN.OZERSERDAR@BILGEADAM.COM", "PELIN.OZERSERDAR", "AQAAAAIAAYagAAAAENyjwk+diQBODRqXz/RPHQR1YBO1hrSsOfX2GwjNXX/kzaLMx19nM9STHG2AymciIA==", null, false, "04b11b7f-2a77-4471-bb2f-5f41c0eba7e5", 1, false, null, "pelin.ozerserdar" },
+                    { new Guid("ca21aa0d-b8b7-433c-89f6-bc2480a694d1"), 0, new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "fc90c889-7624-4b62-8a01-71328f6f7dba", new DateTime(2024, 12, 1, 13, 58, 55, 300, DateTimeKind.Local).AddTicks(7366), null, "ahmet.cekic@bilgeadam.com", false, "Ahmet", null, true, "Çekiç", false, null, "AHMET.CEKIC@BILGEADAM.COM", "AHMET.CEKIC", "AQAAAAIAAYagAAAAEHMsTGoAphhPmYaAiA/EYI9KMwkT9xwKm6F6aoqEOvZZoyPSUEGszr2eBgpRvbJhDQ==", null, false, "b0432de1-f502-4a44-aa91-e81c5c9555e2", 1, false, null, "ahmet.cekic" },
+                    { new Guid("f2d17592-2c75-4a38-a8db-07e13fc4778f"), 0, new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "6486ca52-3e01-4377-85bb-9f6fad39ef79", new DateTime(2024, 12, 1, 13, 58, 55, 47, DateTimeKind.Local).AddTicks(6924), null, "sinaemre.bekar@bilgeadam.com", false, "Sina Emre", null, true, "Bekar", false, null, "SINAEMRE.BEKAR@BILGEADAM.COM", "SINAEMRE.BEKAR", "AQAAAAIAAYagAAAAEO9nWRO4pTqV46EurTfvPZ5mVeoc09F8BQfgKEUNX6ntQ1XGPGpzkJVdIgMJj8rckA==", null, false, "82f03c50-58b5-4b32-b6e8-d8a7062bdb9f", 1, false, null, "sinaemre.bekar" }
                 });
 
             migrationBuilder.InsertData(

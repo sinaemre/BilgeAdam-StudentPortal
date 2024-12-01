@@ -9,10 +9,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DataAccess.IdentityContext
+namespace DataAccess.Context.IdentityContext.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20241201102719_Init")]
+    [Migration("20241201105856_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -66,7 +66,7 @@ namespace DataAccess.IdentityContext
                         new
                         {
                             Id = new Guid("5ba59a20-2057-4a8a-a417-80c119f79971"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7850),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(482),
                             Name = "admin",
                             NormalizedName = "ADMIN",
                             Status = 1
@@ -74,7 +74,7 @@ namespace DataAccess.IdentityContext
                         new
                         {
                             Id = new Guid("bf6a5a19-2bc4-4e47-af9a-c52f4936cc4c"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7889),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(517),
                             Name = "customerManager",
                             NormalizedName = "CUSTOMERMANAGER",
                             Status = 1
@@ -82,7 +82,7 @@ namespace DataAccess.IdentityContext
                         new
                         {
                             Id = new Guid("87fb18de-280e-48bc-abc7-80eef7448fe4"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7892),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(520),
                             Name = "teacher",
                             NormalizedName = "TEACHER",
                             Status = 1
@@ -90,7 +90,7 @@ namespace DataAccess.IdentityContext
                         new
                         {
                             Id = new Guid("754ee8ce-7cd4-4ebb-989f-36d3de20772e"),
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 819, DateTimeKind.Local).AddTicks(7894),
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 432, DateTimeKind.Local).AddTicks(523),
                             Name = "student",
                             NormalizedName = "STUDENT",
                             Status = 1
@@ -132,6 +132,9 @@ namespace DataAccess.IdentityContext
 
                     b.Property<string>("FirstPassword")
                         .HasColumnType("text");
+
+                    b.Property<bool>("HasPasswordChanged")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -193,18 +196,19 @@ namespace DataAccess.IdentityContext
                             Id = new Guid("5db9b8aa-54c3-4b7a-a102-b21207d6646c"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "afc7b942-1e3c-44f6-9c80-5aa8dcb7fac7",
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 208, DateTimeKind.Local).AddTicks(8968),
+                            ConcurrencyStamp = "e95b66af-6cd2-452a-9f9f-d0c1d665b467",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 54, 792, DateTimeKind.Local).AddTicks(9416),
                             Email = "admin@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Administrator",
+                            HasPasswordChanged = true,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@BILGEADAM.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELrHV2vn6a2i4vicpUPqar3AMEz9dLMPLD7wD3jhW/vwaGaehjgvajr1309ITxResQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELSioSlYmcqZVb8yzPrHIL3XnzHvmpIXU3OSQZqg5kjL8pVGqZB+6+oCv9VJdeTkaA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "085f5d3c-d671-4114-9f4b-8bcba9fa26fb",
+                            SecurityStamp = "730ffc3e-af76-4b2f-8082-9660591bf751",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "admin"
@@ -214,18 +218,19 @@ namespace DataAccess.IdentityContext
                             Id = new Guid("79c7f482-f112-4024-aa6c-05df190ce3ff"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1994, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "f7279363-769d-457c-bfe9-e8b447218518",
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 331, DateTimeKind.Local).AddTicks(1752),
+                            ConcurrencyStamp = "07198550-34b3-4492-890b-e0efd4b963ff",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 54, 920, DateTimeKind.Local).AddTicks(9340),
                             Email = "pelin.ozerserdar@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Pelin",
+                            HasPasswordChanged = true,
                             LastName = "Özer Serdar",
                             LockoutEnabled = false,
                             NormalizedEmail = "PELIN.OZERSERDAR@BILGEADAM.COM",
                             NormalizedUserName = "PELIN.OZERSERDAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMNeDA6bYadVdkQSfhh3Kb/oFpcGiJX+hGeCwUVHMcH/jJBEt2yGHrk2gmPE2/mIRw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENyjwk+diQBODRqXz/RPHQR1YBO1hrSsOfX2GwjNXX/kzaLMx19nM9STHG2AymciIA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c9a4437b-916e-4984-86c3-c8fd66f7ef48",
+                            SecurityStamp = "04b11b7f-2a77-4471-bb2f-5f41c0eba7e5",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "pelin.ozerserdar"
@@ -235,18 +240,19 @@ namespace DataAccess.IdentityContext
                             Id = new Guid("f2d17592-2c75-4a38-a8db-07e13fc4778f"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "1150c1af-19e6-487e-b9bc-e5d6e1ab80c6",
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 451, DateTimeKind.Local).AddTicks(6622),
+                            ConcurrencyStamp = "6486ca52-3e01-4377-85bb-9f6fad39ef79",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 47, DateTimeKind.Local).AddTicks(6924),
                             Email = "sinaemre.bekar@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Sina Emre",
+                            HasPasswordChanged = true,
                             LastName = "Bekar",
                             LockoutEnabled = false,
                             NormalizedEmail = "SINAEMRE.BEKAR@BILGEADAM.COM",
                             NormalizedUserName = "SINAEMRE.BEKAR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG4ZNBLEaeLadBntnmLJAqqp+daE48dRJ3Mu9B/sRkOatVUtj4nqWmaimK9ThSSHUg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO9nWRO4pTqV46EurTfvPZ5mVeoc09F8BQfgKEUNX6ntQ1XGPGpzkJVdIgMJj8rckA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a76132a6-e582-40f3-9009-fea525e1f93f",
+                            SecurityStamp = "82f03c50-58b5-4b32-b6e8-d8a7062bdb9f",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "sinaemre.bekar"
@@ -256,18 +262,19 @@ namespace DataAccess.IdentityContext
                             Id = new Guid("389a9486-374b-4a4b-85ef-b2faed25f907"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1996, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "6ad2c0d9-a91a-4632-a182-69b91613d242",
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 574, DateTimeKind.Local).AddTicks(2037),
+                            ConcurrencyStamp = "ee4af4cc-60ee-4a6a-b20d-19e92268ade6",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 176, DateTimeKind.Local).AddTicks(5103),
                             Email = "perin.aycilsahin@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Perin",
+                            HasPasswordChanged = true,
                             LastName = "Aycil Şahin",
                             LockoutEnabled = false,
                             NormalizedEmail = "PERIN.AYCILSAHIN@BILGEADAM.COM",
                             NormalizedUserName = "PERIN.AYCILSAHIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELY9R5d53ozHEbhyOetYoExbj8iNkmoV2EclNHqr1xnJSihos5zA3dvVeJsVFe0yHQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFQ4EefLZMB3P6g+W02KfGpW8xjwRveFVE/VJE8hGI2im9+CyAblui7UNjeXRe+erg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ffa9a7e-6bad-4539-9300-39bc30993c5f",
+                            SecurityStamp = "f381c499-8257-486d-bb99-c1d575ffa115",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "perin.aycilsahin"
@@ -277,18 +284,19 @@ namespace DataAccess.IdentityContext
                             Id = new Guid("ca21aa0d-b8b7-433c-89f6-bc2480a694d1"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(1985, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "a27579ba-4b86-4364-9e46-cc78c378527e",
-                            CreatedDate = new DateTime(2024, 12, 1, 13, 27, 18, 696, DateTimeKind.Local).AddTicks(3972),
+                            ConcurrencyStamp = "fc90c889-7624-4b62-8a01-71328f6f7dba",
+                            CreatedDate = new DateTime(2024, 12, 1, 13, 58, 55, 300, DateTimeKind.Local).AddTicks(7366),
                             Email = "ahmet.cekic@bilgeadam.com",
                             EmailConfirmed = false,
                             FirstName = "Ahmet",
+                            HasPasswordChanged = true,
                             LastName = "Çekiç",
                             LockoutEnabled = false,
                             NormalizedEmail = "AHMET.CEKIC@BILGEADAM.COM",
                             NormalizedUserName = "AHMET.CEKIC",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIbuzuBQoabsWpyXis2E5J3Aw5DupNNr7pB6Wd0su5yhLSP4rwCMTAyc7EOKheH21g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHMsTGoAphhPmYaAiA/EYI9KMwkT9xwKm6F6aoqEOvZZoyPSUEGszr2eBgpRvbJhDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "37890170-9458-4501-bb96-ed6cb942de0e",
+                            SecurityStamp = "b0432de1-f502-4a44-aa91-e81c5c9555e2",
                             Status = 1,
                             TwoFactorEnabled = false,
                             UserName = "ahmet.cekic"
