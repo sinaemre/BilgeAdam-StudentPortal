@@ -102,10 +102,10 @@ namespace Business.Manager.Concrete
             return result;
         }
 
-        public async Task<EditUserDTO> FindUserAsync(ClaimsPrincipal claims)
+        public async Task<T> FindUserAsync<T>(ClaimsPrincipal claims)
         {
             var user = await _userService.FindUserAsync(claims);
-            var dto = _mapper.Map<EditUserDTO>(user);
+            var dto = _mapper.Map<T>(user);
             return dto;
         }
 
@@ -172,6 +172,13 @@ namespace Business.Manager.Concrete
         {
             var appUser = await _userService.FindUserByEmailAsync(dto.Email);
             var result = await _userService.ChangePasswordAsync(appUser, dto.OldPassword, dto.NewPassword);
+            if (result.Succeeded)
+            {
+                appUser.HasPasswordChanged = true;
+                appUser.FirstPassword = string.Empty;
+                var resultUpdate = await _userService.UpdateUserAsync(appUser);
+                return resultUpdate;
+            }
             return result.Succeeded;
         }
 

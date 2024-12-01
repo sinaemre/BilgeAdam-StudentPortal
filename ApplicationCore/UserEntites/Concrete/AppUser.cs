@@ -13,6 +13,7 @@ namespace ApplicationCore.UserEntites.Concrete
     {
         private DateTime _createdDate = DateTime.Now;
         private Status _status = Status.Active;
+        private bool _hasPasswordChanged = false;
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -25,5 +26,6 @@ namespace ApplicationCore.UserEntites.Concrete
         public DateTime? DeletedDate { get; set; }
         public Status Status { get => _status; set => _status = value; }
         public string? FirstPassword { get; set; }
+        public bool HasPasswordChanged { get => _hasPasswordChanged; set => _hasPasswordChanged = value; }
     }
 }

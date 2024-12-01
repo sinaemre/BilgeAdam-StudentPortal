@@ -1,6 +1,7 @@
 using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.AccountDTO;
+using DTO.Concrete.UserDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
@@ -32,6 +33,14 @@ public class AccountController : Controller
             var result = await _userManager.LoginAsync(dto);
             if (result)
             {
+                var appUser = await _userManager.FindUserAsync<GetUserDTO>(HttpContext.User);
+                if (!appUser.HasChangedPassword)
+                {
+                    TempData["Error"] = "İlk kez giriş yaptığınız için Email'inize gelen linkten şifrenizi değiştirmelisiniz!";
+                    await _userManager.LogoutAsync();
+                    return View();
+                }
+
                 TempData["Success"] = $"Hoşgeldiniz {model.UserName}";
                 if (await _userManager.IsUserInRoleAsync(model.UserName, "admin"))
                     return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
