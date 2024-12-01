@@ -2,10 +2,11 @@
 
 namespace WEB.Models.ViewModels.Account
 {
-    public class ChangePasswordVM
+    public class CreatePasswordVM
     {
-        public Guid Id { get; set; }
-        
+        public string Token { get; set; }
+        public string Email { get; set; }
+
         [Display(Name = "Eski Şifre")]
         public string? OldPassword { get; set; }
 
@@ -15,5 +16,4 @@ namespace WEB.Models.ViewModels.Account
         [Display(Name = "Yeni Şifre Tekrar")]
         public string? CheckNewPassword { get; set; }
     }
-
 }

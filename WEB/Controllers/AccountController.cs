@@ -3,6 +3,8 @@ using Business.Manager.Interface;
 using DTO.Concrete.AccountDTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using WEB.ActionFilters;
 using WEB.Areas.Admin.Controllers;
 using WEB.Models.ViewModels.Account;
 
@@ -121,6 +123,45 @@ public class AccountController : Controller
             }
             TempData["Error"] = "Şifre değiştirilemedi!";
             return View(model);
+        }
+        TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
+        return View(model);
+    }
+
+    [ValidateTokenExpiryFilter]
+    public async Task<IActionResult> CreatePassword(string email, string token = null)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            TempData["Error"] = "Token değeri null olamaz!";
+            return BadRequest();
+        }
+
+        var model = new CreatePasswordVM { Token = token, Email = email };
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken, ValidateTokenExpiryFilter]
+    public async Task<IActionResult> CreatePassword(CreatePasswordVM model)
+    {
+        if (ModelState.IsValid) 
+        {
+            var user = await _userManager.FindUserByEmailAsync(model.Email);
+
+            if (user != null)
+            {
+                var dto = _mapper.Map<CreatePasswordDTO>(model);
+                var result = await _userManager.ChangePasswordAsync(dto);
+                if (result)
+                {
+                    TempData["Success"] = "Şifreniz başarıyla değiştirildi. Giriş yapabilirsiniz!";
+                    return RedirectToAction(nameof(Login));
+                }
+                TempData["Error"] = "Şifreniz değiştirilemedi!";
+                return View(model);
+            }
+            TempData["Error"] = "Bu email'de bir kullanıcı bulunamadı!";
+            return RedirectToAction(nameof(Login));
         }
         TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
         return View(model);

@@ -149,5 +149,12 @@ namespace DataAccess.Services.Concrete
 
         public async Task<string> GenerateTokenForResetPassword(AppUser appUser)
             => await _userManager.GeneratePasswordResetTokenAsync(appUser);
+
+        public async Task<bool> IsTokenValid(AppUser user, string token)
+        {
+            var tokenProvider = _userManager.Options.Tokens.PasswordResetTokenProvider;
+            var result = await _userManager.VerifyUserTokenAsync(user, tokenProvider, "ResetPassword", token);
+            return result;
+        }
     }
 }

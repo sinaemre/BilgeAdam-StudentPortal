@@ -166,7 +166,21 @@ namespace Business.Manager.Concrete
             return result.Succeeded;
         }
 
+        public async Task<bool> ChangePasswordAsync(CreatePasswordDTO dto)
+        {
+            var appUser = await _userService.FindUserByEmailAsync(dto.Email);
+            var result = await _userService.ChangePasswordAsync(appUser, dto.OldPassword, dto.NewPassword);
+            return result.Succeeded;
+        }
+
         public async Task<Guid> GetUserIdAsync(ClaimsPrincipal claimsPrincipal)
             => await _userService.GetUserIdAsync(claimsPrincipal);
+
+        public async Task<bool> IsTokenValid(GetUserDTO user, string token)
+        {
+            var appUser = await _userService.FindUserByEmailAsync(user.Email);
+            var result = await _userService.IsTokenValid(appUser, token);
+            return result;
+        }
     }
 }

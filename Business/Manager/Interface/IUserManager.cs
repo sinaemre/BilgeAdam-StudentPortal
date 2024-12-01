@@ -29,5 +29,7 @@ namespace Business.Manager.Interface
         Task<bool> UpdateUserAsync(EditUserDTO dto);
         Task<string> GenerateTokenForResetPassword(Guid userId);
         Task<bool> ChangePasswordAsync(ChangePasswordDTO dto);
+        Task<bool> ChangePasswordAsync(CreatePasswordDTO dto);
+        Task<bool> IsTokenValid(GetUserDTO user, string token);
     }
 }
