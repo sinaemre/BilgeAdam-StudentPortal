@@ -15,6 +15,6 @@ namespace DTO.Concrete.UserDTO
         public string? UserName { get; set; }
         public string Email { get; set; }
         public string? FirstPassword { get; set; }
-        public bool HasChangedPassword { get; set; }
+        public bool HasPasswordChanged { get; set; }
     }
 }

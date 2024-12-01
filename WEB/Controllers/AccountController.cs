@@ -34,11 +34,11 @@ public class AccountController : Controller
             if (result)
             {
                 var appUser = await _userManager.FindUserAsync<GetUserDTO>(HttpContext.User);
-                if (!appUser.HasChangedPassword)
+                if (!appUser.HasPasswordChanged)
                 {
                     TempData["Error"] = "İlk kez giriş yaptığınız için Email'inize gelen linkten şifrenizi değiştirmelisiniz!";
                     await _userManager.LogoutAsync();
-                    return View();
+                    return RedirectToAction(nameof(Login));
                 }
 
                 TempData["Success"] = $"Hoşgeldiniz {model.UserName}";
