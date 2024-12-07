@@ -2,6 +2,7 @@ using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.AccountDTO;
 using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
@@ -15,11 +16,13 @@ public class AccountController : Controller
 {
     private readonly IUserManager _userManager;
     private readonly IMapper _mapper;
+    private readonly IEmailSender _emailSender;
 
-    public AccountController(IUserManager userManager, IMapper mapper)
+    public AccountController(IUserManager userManager, IMapper mapper, IEmailSender emailSender)
     {
         _userManager = userManager;
         _mapper = mapper;
+        _emailSender = emailSender;
     }
 
     public IActionResult Login() => View();
@@ -153,7 +156,7 @@ public class AccountController : Controller
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> CreatePassword(CreatePasswordVM model)
     {
-        if (ModelState.IsValid) 
+        if (ModelState.IsValid)
         {
             var user = await _userManager.FindUserByEmailAsync(model.Email);
 
@@ -175,4 +178,32 @@ public class AccountController : Controller
         TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
         return View(model);
     }
+
+    public IActionResult ForgotPassword() => View();
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordVM model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindUserByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["Error"] = "Bu maile kayıtlı bir kullanıcı yoktur. Yöneticinizle iletişime geçebilirsiniz!";
+                return RedirectToAction(nameof(Login));
+            }
+
+            var token = await _userManager.GenerateTokenForResetPassword(user.Id);
+
+            var callbackUrl = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
+
+            await _emailSender.SendEmailAsync(user.Email, "Şifre Sıfırlama", $"<p>Şifrenizi sıfırlama için <a href='{callbackUrl}'>buraya tıklayınız!</a></p>");
+
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+        TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
+        return View(model);
+
+    }
+    public IActionResult ForgotPasswordConfirmation() => View();
 }
