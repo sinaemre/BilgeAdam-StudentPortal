@@ -4,6 +4,7 @@
 @model LoginVM
 
 <div class="row">
+    <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
@@ -22,8 +23,8 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="card-footer" style="height:50px;">
-                    <button type="submit" class="btn btn-outline-success d-block">Giriş Yap</button>
+                <div class="card-footer d-flex flex-column">
+                    <button type="submit" class="btn btn-outline-success w-100 my-2">Giriş Yap</button>
                     <a class="btn btn-outline-dark d-block" asp-action="ForgotPassword">Şifremi Unuttum</a>
                 </div>
             </form>

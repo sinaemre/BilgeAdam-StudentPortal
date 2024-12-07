@@ -1,6 +1,8 @@
 ﻿using ApplicationCore.Entities.Concrete;
+using ApplicationCore.UserEntites.Concrete;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Services.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace DataAccess.Services.Concrete
     {
         private readonly AppDbContext _context;
 
-        public TeacherService(AppDbContext context) : base(context)
+        public TeacherService(AppDbContext context, IUserService userService) : base(context, userService)
         {
             _context = context;
         }

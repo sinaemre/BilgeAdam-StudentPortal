@@ -1,7 +1,10 @@
 ﻿using ApplicationCore.Consts;
 using ApplicationCore.Entities.Abstract;
+using ApplicationCore.Entities.Concrete;
+using ApplicationCore.UserEntites.Concrete;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Services.Interface;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
@@ -16,11 +19,13 @@ namespace DataAccess.Services.Concrete
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         private readonly AppDbContext _context;
+        private readonly IUserService _userService;
         private readonly DbSet<T> _table;
 
-        public BaseRepository(AppDbContext context)
+        public BaseRepository(AppDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
             _table = context.Set<T>();
         }
 
@@ -34,6 +39,41 @@ namespace DataAccess.Services.Concrete
         {
             entity.UpdatedDate = DateTime.Now;
             entity.Status = Status.Modified;
+            var email = "";
+            var entityType = entity.GetType();
+            if (entityType == typeof(Teacher))
+            {
+                var teacher = await _context.Teachers.FirstOrDefaultAsync(x => x.Id == entity.Id);
+                email = teacher != null ? teacher.Email : "";
+               
+            }
+            else if (entityType == typeof(Student))
+            {
+                var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == entity.Id);
+                email = student != null ? student.Email : "";
+            }
+            else if (entityType == typeof(CustomerManager))
+            {
+                var customerManager = await _context.CustomerManagers.FirstOrDefaultAsync(x => x.Id == entity.Id);
+                email = customerManager != null ? customerManager.Email : "";
+            }
+            if (!string.IsNullOrEmpty(email))
+            {
+                var appUser = await _userService.FindUserByEmailAsync(email);
+                if (appUser != null)
+                {
+                    appUser.Email = entityType == typeof(Teacher) ? (entity as Teacher).Email :
+                                    entityType == typeof(Student) ? (entity as Student).Email :
+                                    entityType == typeof(CustomerManager) ? (entity as CustomerManager).Email : "";
+                    appUser.NormalizedEmail = appUser.Email.Replace('i', 'ı').ToUpper();
+                    if (!string.IsNullOrEmpty(appUser.Email))
+                    {
+                        var result = await _userService.UpdateUserAsync(appUser);
+                        if (!result)
+                            throw new Exception("Kullanıcı maili güncellenemedi!");
+                    }
+                }
+            }
             _table.Update(entity);
             return await SaveAsync();
         }

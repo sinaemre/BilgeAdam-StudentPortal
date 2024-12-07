@@ -130,6 +130,7 @@ namespace DataAccess.Services.Concrete
         {
             var entity = await _userManager.FindByIdAsync(user.Id.ToString());
             entity.Email = user.Email;
+            entity.NormalizedEmail = user.NormalizedEmail;
             entity.UpdatedDate = DateTime.Now;
             entity.Status = Status.Modified;
             _context.Entry(entity).OriginalValues.SetValues(entity); // Optimistic Concurrency'nin Devre Dışı Bırakılması
