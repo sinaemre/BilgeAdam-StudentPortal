@@ -31,5 +31,6 @@ namespace Business.Manager.Interface
         Task<bool> ChangePasswordAsync(ChangePasswordDTO dto);
         Task<bool> ChangePasswordAsync(CreatePasswordDTO dto);
         Task<bool> IsTokenValid(GetUserDTO user, string token);
+        Task<bool> ResetPasswordAsync(ResetPasswordDTO dto);
     }
 }

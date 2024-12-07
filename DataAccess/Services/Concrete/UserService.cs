@@ -130,7 +130,6 @@ namespace DataAccess.Services.Concrete
         {
             var entity = await _userManager.FindByIdAsync(user.Id.ToString());
             entity.Email = user.Email;
-            entity.NormalizedEmail = user.NormalizedEmail;
             entity.UpdatedDate = DateTime.Now;
             entity.Status = Status.Modified;
             _context.Entry(entity).OriginalValues.SetValues(entity); // Optimistic Concurrency'nin Devre Dışı Bırakılması
@@ -148,14 +147,17 @@ namespace DataAccess.Services.Concrete
         public async Task LogoutAsync()
             => await _signInManager.SignOutAsync();
 
-        public async Task<string> GenerateTokenForResetPassword(AppUser appUser)
+        public async Task<string> GenerateTokenForResetPasswordAsync(AppUser appUser)
             => await _userManager.GeneratePasswordResetTokenAsync(appUser);
 
-        public async Task<bool> IsTokenValid(AppUser user, string token)
+        public async Task<bool> IsTokenValidAsync(AppUser user, string token)
         {
             var tokenProvider = _userManager.Options.Tokens.PasswordResetTokenProvider;
             var result = await _userManager.VerifyUserTokenAsync(user, tokenProvider, "ResetPassword", token);
             return result;
         }
+
+        public async Task<IdentityResult> ResetPasswordAsync(AppUser user, string token, string newPassword)
+            => await _userManager.ResetPasswordAsync(user, token, newPassword);
     }
 }

@@ -206,4 +206,41 @@ public class AccountController : Controller
 
     }
     public IActionResult ForgotPasswordConfirmation() => View();
+
+    [ValidateTokenExpiryFilter]
+    public async Task<IActionResult> ResetPassword(string email, string token = null)
+    {
+        if (token ==  null)
+        {
+            TempData["Error"] = "Token zorunludur!";
+            return BadRequest();
+        }
+        var model = new ResetPasswordVM { Token = token, Email = email };
+        return View(model);
+    }
+
+    [HttpPost, ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResetPassword(ResetPasswordVM model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindUserByEmailAsync(model.Email);
+            if (user != null)
+            {
+                var dto = _mapper.Map<ResetPasswordDTO>(model);
+                var result = await _userManager.ResetPasswordAsync(dto);
+                if (result)
+                {
+                    TempData["Success"] = "Şifreniz başarılı bir şekilde değiştirilmiştir. Giriş yapabilirsiniz!";
+                    return RedirectToAction(nameof(Login));
+                }
+                TempData["Error"] = "Şifreniz değiştirilemedi!";
+                return View(model);
+            }
+            TempData["Error"] = "Kullanıcı bulunamadı!";
+            return RedirectToAction(nameof(Login));
+        }
+        TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
+        return View(model);
+    }
 }

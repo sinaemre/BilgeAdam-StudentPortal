@@ -28,7 +28,8 @@ namespace DataAccess.Services.Interface
         Task<IdentityResult> CreateUserAsync(AppUser user);
         Task<bool> UpdateUserAsync(AppUser user);
         Task<IdentityResult> ChangePasswordAsync(AppUser user, string oldPassword, string newPassword);
-        Task<string> GenerateTokenForResetPassword(AppUser appUser);
-        Task<bool> IsTokenValid(AppUser user, string token);
+        Task<string> GenerateTokenForResetPasswordAsync(AppUser appUser);
+        Task<bool> IsTokenValidAsync(AppUser user, string token);
+        Task<IdentityResult> ResetPasswordAsync(AppUser user, string token, string newPassword);
     }
 }

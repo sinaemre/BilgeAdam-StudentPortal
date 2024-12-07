@@ -157,7 +157,7 @@ namespace Business.Manager.Concrete
         public async Task<string> GenerateTokenForResetPassword(Guid userId)
         {
             var user = await _userService.FindUserByIdAsync(userId);
-            var token = await _userService.GenerateTokenForResetPassword(user);
+            var token = await _userService.GenerateTokenForResetPasswordAsync(user);
             return token;
         }
 
@@ -188,7 +188,7 @@ namespace Business.Manager.Concrete
         public async Task<bool> IsTokenValid(GetUserDTO user, string token)
         {
             var appUser = await _userService.FindUserByEmailAsync(user.Email);
-            var result = await _userService.IsTokenValid(appUser, token);
+            var result = await _userService.IsTokenValidAsync(appUser, token);
             return result;
         }
 
@@ -215,6 +215,13 @@ namespace Business.Manager.Concrete
             }
 
             return new string(password);
+        }
+
+        public async Task<bool> ResetPasswordAsync(ResetPasswordDTO dto)
+        {
+            var user = await _userService.FindUserByEmailAsync(dto.Email);
+            var result = await _userService.ResetPasswordAsync(user, dto.Token, dto.NewPassword);
+            return result.Succeeded;
         }
     }
 }

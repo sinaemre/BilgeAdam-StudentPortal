@@ -12,5 +12,6 @@ public class AccountMapping : Profile
         CreateMap<EditUserVM, EditUserDTO>().ReverseMap();
         CreateMap<ChangePasswordVM, ChangePasswordDTO>().ReverseMap();
         CreateMap<CreatePasswordVM, CreatePasswordDTO>().ReverseMap();
+        CreateMap<ResetPasswordVM, ResetPasswordDTO>().ReverseMap();
     }
 }
