@@ -11,6 +11,7 @@ namespace WEB.AutoMapper
             CreateMap<GetCourseForSelectListDTO, GetCourseForSelectListVM>()
                 .ForMember(dest => dest.Info, src => src.MapFrom(x => x.Name + " - " + x.TotalHour + " Saat"))
                 .ReverseMap();
+            CreateMap<GetCourseVM, GetCourseDTO>().ReverseMap();
             CreateMap<CreateCourseVM, CreateCourseDTO>().ReverseMap();
             CreateMap<UpdateCourseVM, UpdateCourseDTO>().ReverseMap();
         }

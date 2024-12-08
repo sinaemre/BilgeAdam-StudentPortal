@@ -11,5 +11,6 @@ namespace Business.Manager.Interface
     public interface ITeacherManager : IBaseManager<ITeacherService, Teacher>
     {
         Task<Guid> GetTeacherIdByClassroomIdAsync(Guid classroomId);
+        Task<int> GetTeachersCount();
     }
 }

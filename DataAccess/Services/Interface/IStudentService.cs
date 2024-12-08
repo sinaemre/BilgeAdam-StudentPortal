@@ -10,5 +10,8 @@ namespace DataAccess.Services.Interface
     public interface IStudentService : IBaseRepository<Student>
     {
         double? GetTotalEarningByCourseId(Guid courseId);
+        Task<int> GetSuccessStudentsPercentage();
+        Task<int> GetStudentsCount(); 
+
     }
 }

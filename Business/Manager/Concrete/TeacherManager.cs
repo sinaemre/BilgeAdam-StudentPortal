@@ -24,5 +24,8 @@ namespace Business.Manager.Concrete
             var teacherId = await _service.GetTeacherIdByClassroomIdAsync(classroomId);
             return teacherId;
         }
+
+        public async Task<int> GetTeachersCount()
+            => await _service.GetTeachersCount();
     }
 }

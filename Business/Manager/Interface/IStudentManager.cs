@@ -12,5 +12,7 @@ namespace Business.Manager.Interface
     public interface IStudentManager : IBaseManager<IStudentService, Student>
     {
         Task<string> GetUserImageURL(ClaimsPrincipal claimsPrincipal);
+        Task<int> GetSuccessStudentsPercentage();
+        Task<int> GetStudentsCount();
     }
 }

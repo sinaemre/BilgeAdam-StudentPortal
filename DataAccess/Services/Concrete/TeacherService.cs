@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Entities.Concrete;
+﻿using ApplicationCore.Consts;
+using ApplicationCore.Entities.Concrete;
 using ApplicationCore.UserEntites.Concrete;
 using DataAccess.Context.ApplicationContext;
 using DataAccess.Services.Interface;
@@ -25,6 +26,13 @@ namespace DataAccess.Services.Concrete
         {
             var classroom = await _context.Classrooms.FirstOrDefaultAsync(x => x.Id == classroomId);
             return classroom.TeacherId;
+        }
+
+        public async Task<int> GetTeachersCount()
+        {
+            var teachers = await _context.Teachers.Where(x => x.Status != Status.Passive).ToListAsync();
+            var teachersCount = teachers.Count;
+            return teachersCount;
         }
     }
 }

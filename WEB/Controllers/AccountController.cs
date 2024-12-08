@@ -197,7 +197,7 @@ public class AccountController : Controller
 
             var callbackUrl = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
 
-            await _emailSender.SendEmailAsync(user.Email, "Şifre Sıfırlama", $"<p>Şifrenizi sıfırlama için <a href='{callbackUrl}'>buraya tıklayınız!</a></p>");
+            await _emailSender.SendEmailAsync(user.Email, "Şifre Sıfırlama", $"<p>Şifrenizi sıfırlamak için <a href='{callbackUrl}'>buraya tıklayınız!</a></p>");
 
             return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }

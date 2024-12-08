@@ -22,6 +22,12 @@ namespace Business.Manager.Concrete
             _userService = userService;
         }
 
+        public async Task<int> GetSuccessStudentsPercentage()
+            => await _service.GetSuccessStudentsPercentage();
+        public async Task<int> GetStudentsCount()
+            => await _service.GetStudentsCount();
+
+
         public async Task<string> GetUserImageURL(ClaimsPrincipal claimsPrincipal)
         {
             var user = await _userService.FindUserAsync(claimsPrincipal);
