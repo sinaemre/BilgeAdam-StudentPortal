@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Student Detail";
+}
+@model StudentDetailForProjectVM
+
+<div class="container rounded bg-white mt-5 mb-5 text-dark">
+    <div class="row">
+        <div class="col-md-6 border-right">
+            @if (User.IsInRole("teacher"))
+            {
+                <span class="mt-5 text-center">
+                    <a asp-controller="Classrooms" asp-action="GetStudentsByClassroomId" asp-route-classroomId="@Model.ClassroomId" class="btn btn-primary profile-button"><i class="fa-solid fa-circle-arrow-left"></i> Geri Dön</a>
+                </span>
+            }
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                @if (Model.ImagePath != null)
+                {
+                    <img class="rounded-circle mt-5" width="150" src="~/img/@Model.ImagePath">
+                }
+                else
+                {
+                    <img class="rounded-circle mt-5" width="150" src="~/img/noimage.png">
+
+                }
+                <span class="font-weight-bold">@Model.FirstName @Model.LastName</span>
+                <span class="text-black-50">@Model.Email</span>
+            </div>
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Öğrenci Bilgileri</h4>
+                </div>
+                <div class="row mt-2">
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class="labels">Doğum Tarihi</label><h5 class="form-control">
+                            @Model.BirthDate.ToShortDateString()
+                        </h5>
+                    </div>
+                    <div class="col-md-12"><label class="labels">Kurs</label><h5 class="form-control">@Model.CourseName</h5></div>
+                    <div class="col-md-12"><label class="labels">Sınıf</label><h5 class="form-control">@Model.ClassroomName</h5></div>
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Sınavlar</h4>
+                </div>
+                <form asp-action="UpdateStudentExams">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FirstName" />
+                    <input type="hidden" asp-for="LastName" />
+                    <input type="hidden" asp-for="BirthDate" />
+                    <input type="hidden" asp-for="Email" />
+                    <input type="hidden" asp-for="ClassroomName" />
+                    <input type="hidden" asp-for="CourseName" />
+                    <input type="hidden" asp-for="ClassroomId" />
+                    <input type="hidden" asp-for="Average" />
+                    <input type="hidden" asp-for="StudentStatus" />
+                    <input type="hidden" asp-for="ProjectName" />
+                    <input type="hidden" asp-for="ProjectPath" />
+                    <input type="hidden" asp-for="ImagePath" />
+                    <div class="col-md-12">
+                        <label class="labels">Vize</label>
+                        @if (User.IsInRole("teacher"))
+                        {
+                            <input type="number" min="0" max="100" asp-for="Exam1" class="form-control" />
+                        }
+                        else
+                        {
+                            <input type="number" min="0" max="100" asp-for="Exam1" class="form-control" readonly />
+
+                        }
+                    </div> <br>
+                    <div class="col-md-12">
+                        <label class="labels">Final</label>
+                        @if (User.IsInRole("teacher"))
+                        {
+                            <input type="number" min="0" max="100" asp-for="Exam2" class="form-control" />
+                        }
+                        else
+                        {
+                            <input type="number" min="0" max="100" asp-for="Exam2" class="form-control" readonly />
+
+                        }
+                    </div> <br>
+                    <div class="col-md-12">
+                        <label class="labels">Proje Notu</label>
+                        @if (User.IsInRole("teacher") && Model.ProjectPath != null)
+                        {
+                            <input type="number" min="0" max="100" asp-for="ProjectExam" class="form-control" />
+                        }
+                        else
+                        {
+                            <input type="number" min="0" max="100" asp-for="ProjectExam" class="form-control" readonly />
+
+                        }
+                    </div> <br>
+                    @if (User.IsInRole("teacher"))
+                    {
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-outline-success">Gönder</button>
+                        </div>
+                    }
+                </form>
+
+                <div class="col-md-12">
+                    @if (Model.ProjectPath != null)
+                    {
+                        <label class="labels">Proje</label>
+                        <div class="d-flex align-items-start justify-content-between">
+                            <h5 class="form-control">@Model.ProjectName - (<span class="text-success">Teslim Edildi</span>)</h5>
+                            <a class="btn btn-outline-success ms-2" asp-action="Download" asp-route-filepath="@Model.ProjectPath">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                        </div>
+                    }
+                    else if (User.IsInRole("student"))
+                    {
+                        <form asp-action="SendProject" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="FirstName" />
+                            <input type="hidden" asp-for="LastName" />
+                            <input type="hidden" asp-for="BirthDate" />
+                            <input type="hidden" asp-for="Email" />
+                            <input type="hidden" asp-for="ClassroomName" />
+                            <input type="hidden" asp-for="CourseName" />
+                            <input type="hidden" asp-for="ClassroomId" />
+                            <input type="hidden" asp-for="Average" />
+                            <input type="hidden" asp-for="StudentStatus" />
+                            <input type="hidden" asp-for="ImagePath" />
+                            <input type="hidden" asp-for="Exam1" />
+                            <input type="hidden" asp-for="Exam2" />
+                            <input type="hidden" asp-for="ProjectExam" />
+                            <input asp-for="ProjectName" class="form-control mb-2" placeholder="Proje adı giriniz..." />
+                            <div class="d-flex">
+                                <input type="file" class="form-control me-2" asp-for="Project" />
+                                <button type="submit" class="btn btn-outline-success">Gönder</button>
+                            </div>
+                        </form>
+                    }
+                </div> <br>
+                <div class="col-md-12">
+                    <label class="labels">Ortalama</label>
+                    @if (Model.Average is not null)
+                    {
+                        <input readonly class="form-control" value="@Model.Average" />
+                    }
+                    else
+                    {
+                        <input readonly class="form-control" value="-" />
+                    }<br>
+
+                </div>
+                <div class="col-md-12">
+                    <label class="labels">Durum</label>
+                    @if (Model.StudentStatus == ApplicationCore.Consts.StudentStatus.Success)
+                    {
+                        <h3 class="form-control text-success">Geçti</h3>
+                    }
+                    else if (Model.StudentStatus == ApplicationCore.Consts.StudentStatus.Failed)
+                    {
+                        <h3 class="form-control text-danger">Kaldı</h3>
+                    }
+                    else
+                    {
+                        <h3 class="form-control text-dark">Devam ediyor...</h3>
+
+                    }
+                </div> <br>
+            </div>
+        </div>
+    </div>
+</div>

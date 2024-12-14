@@ -5,6 +5,7 @@ using Business.Manager.Interface;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.TeacherDTO;
 using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using WEB.Areas.Education.Models.ViewModels.Teachers;
 namespace WEB.Areas.Education.Controllers
 {
     [Area("Education")]
+    [Authorize(Roles = "admin, customerManager")]
     public class TeachersController : Controller
     {
         private readonly ITeacherManager _teacherManager;
@@ -196,13 +198,6 @@ namespace WEB.Areas.Education.Controllers
             var teacherVM = _mapper.Map<List<GetTeacherForSelectListVM>>(teachersDTO);
             return Json(teacherVM);
         }
-
-
-
-
-
-
-
 
         private async Task<SelectList> GetCourses(Guid? courseId)
         {

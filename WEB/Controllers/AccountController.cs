@@ -1,7 +1,9 @@
 using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.AccountDTO;
+using DTO.Concrete.TeacherDTO;
 using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -48,8 +50,14 @@ public class AccountController : Controller
                 if (await _userManager.IsUserInRoleAsync(model.UserName, "admin"))
                     return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
 
-                if (await _userManager.IsUserInRoleAsync(model.UserName, "customerManager") || await _userManager.IsUserInRoleAsync(model.UserName, "student") || await _userManager.IsUserInRoleAsync(model.UserName, "teacher"))
+                if (await _userManager.IsUserInRoleAsync(model.UserName, "customerManager"))
                     return RedirectToAction("Index", "Home", new { area = "Education" });
+
+                if (await _userManager.IsUserInRoleAsync(model.UserName, "teacher"))
+                    return RedirectToAction("GetClassroomsForTeacherByTeacherId", "Classrooms", new { area = "Education"});
+
+                if (await _userManager.IsUserInRoleAsync(model.UserName, "student"))
+                    return RedirectToAction("StudentDetail", "Students", new { area = "Education" });
 
                 return RedirectToAction("Index", "Home");
             }
@@ -61,6 +69,7 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [Authorize]
     public async Task<IActionResult> EditUser()
     {
         var dto = await _userManager.FindUserAsync<EditUserDTO>(HttpContext.User);
@@ -74,6 +83,7 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    [Authorize]
     [HttpPost, ValidateAntiForgeryToken]
     public async Task<IActionResult> EditUser(EditUserVM model)
     {
@@ -98,6 +108,7 @@ public class AccountController : Controller
         return View(model);
     }
 
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         if (HttpContext.User.Identity.IsAuthenticated)
@@ -111,6 +122,7 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Login));
     }
 
+    [Authorize]
     public async Task<IActionResult> ChangePassword()
     {
         //HttpContext.User => Giriş yapmış kullanıcı
@@ -122,6 +134,7 @@ public class AccountController : Controller
     }
 
     [HttpPost, ValidateAntiForgeryToken]
+    [Authorize]
     public async Task<IActionResult> ChangePassword(ChangePasswordVM model)
     {
         if (ModelState.IsValid)
@@ -141,7 +154,7 @@ public class AccountController : Controller
     }
 
     [ValidateTokenExpiryFilter]
-    public async Task<IActionResult> CreatePassword(string email, string token = null)
+    public IActionResult CreatePassword(string email, string token = null)
     {
         if (string.IsNullOrEmpty(token))
         {
@@ -208,7 +221,7 @@ public class AccountController : Controller
     public IActionResult ForgotPasswordConfirmation() => View();
 
     [ValidateTokenExpiryFilter]
-    public async Task<IActionResult> ResetPassword(string email, string token = null)
+    public IActionResult ResetPassword(string email, string token = null)
     {
         if (token ==  null)
         {

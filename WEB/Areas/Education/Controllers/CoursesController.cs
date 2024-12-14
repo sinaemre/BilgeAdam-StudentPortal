@@ -2,6 +2,7 @@
 using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.CourseDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Areas.Education.Models.ViewModels.Courses;
 
@@ -19,6 +20,7 @@ namespace WEB.Areas.Education.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> Index()
         {
             var courses = await _courseManager.GetFilteredListAsync
@@ -39,8 +41,10 @@ namespace WEB.Areas.Education.Controllers
             return View(courses);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public IActionResult CreateCourse() => View();
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCourse(CreateCourseVM model)
         {
@@ -67,6 +71,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> UpdateCourse(string id)
         {
             Guid entityId;
@@ -86,6 +91,7 @@ namespace WEB.Areas.Education.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateCourse(UpdateCourseVM model)
         {
@@ -116,6 +122,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> DeleteCourse(string id)
         {
             Guid entityId;

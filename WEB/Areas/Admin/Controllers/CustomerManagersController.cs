@@ -4,12 +4,14 @@ using Business.Manager.Interface;
 using DataAccess.Services.Interface;
 using DTO.Concrete.CustomerManagerDTO;
 using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Areas.Admin.Models.ViewModels.CustomerManagers;
 
 namespace WEB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class CustomerManagersController : Controller
     {
         private readonly ICMManager _customerManagerService;

@@ -10,6 +10,7 @@ namespace WEB.AutoMapper
         {
             CreateMap<CreateStudentVM, CreateStudentDTO>().ReverseMap();
             CreateMap<UpdateStudentVM, UpdateStudentDTO>().ReverseMap();
+            CreateMap<StudentDetailForProjectVM, StudentDetailForProjectDTO>().ReverseMap();
         }
     }
 }

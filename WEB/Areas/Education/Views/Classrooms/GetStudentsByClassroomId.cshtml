@@ -1,0 +1,85 @@
+﻿@{
+    ViewData["Title"] = "Get Classroom";
+}
+@model List<StudentDetailForProjectVM>
+
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Öğrenciler</h3>
+            </div>
+            <div class="card-body">
+                <div class="table table-responsive">
+                    <table class="table table-hover myTable">
+                        <thead>
+                            <tr>
+                                <th>Öğrenci</th>
+                                <th>1. Sınav</th>
+                                <th>2. Sınav</th>
+                                <th>Proje Notu</th>
+                                <th>Ortalama</th>
+                                <th>Proje</th>
+                                <th>Durum</th>
+                                <th>Detay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Model)
+                            {
+                                <tr>
+                                    <td>@student.FirstName @student.LastName</td>
+                                    <td>@student.Exam1</td>
+                                    <td>@student.Exam2</td>
+                                    <td>@student.ProjectExam</td>
+                                    @if (student.Average is not null)
+                                    {
+                                        <td>
+                                            @student.Average
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td> - </td>
+                                    }
+                                    <td>
+                                        @if (student.ProjectPath != null)
+                                        {
+                                            <a class="btn btn-outline-success" asp-controller="Students" asp-action="Download" asp-route-filePath="@student.ProjectPath">
+                                                @student.ProjectName <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <p>Henüz proje yüklenmedi!</p>
+                                        }
+                                    </td>
+
+                                    @if (student.StudentStatus == ApplicationCore.Consts.StudentStatus.Success)
+                                    {
+                                        <td>Geçti</td>
+                                    }
+                                    else if (student.StudentStatus == ApplicationCore.Consts.StudentStatus.Failed)
+                                    {
+                                        <td>Kaldı</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Devam Ediyor...</td>
+                                    }
+                                    <td>
+                                        <a asp-controller="Students" asp-action="StudentDetail" asp-route-studentId="@student.Id" class="btn btn-outline-success">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

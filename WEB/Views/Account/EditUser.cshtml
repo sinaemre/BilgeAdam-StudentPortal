@@ -1,54 +1,51 @@
-@model EditUserVM
-
 @{
     ViewData["Title"] = "Edit User";
+    Layout = "_LayoutAdmin";
 }
+@model EditUserVM
 
-<div class="row">
-    <div class="col-md-2"></div>
+<div class="row m-0 d-flex justify-content-center">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Kullanıcı Bilgileri Düzenle</h3>
+                <h3>Kullanıcı Bilgilerini Düzenle</h3>
             </div>
             <form asp-action="EditUser">
-                <input type="hidden" asp-for="Id"/>
-                <input type="hidden" asp-for="CreatedDate"/>
-                <input type="hidden" asp-for="UpdatedDate"/>
-                <input type="hidden" asp-for="FirstName"/>
-                <input type="hidden" asp-for="LastName"/>
-                <input type="hidden" asp-for="UserName"/>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="FirstName" />
+                <input type="hidden" asp-for="LastName" />
+                <input type="hidden" asp-for="UserName" />
                 <div class="card-body">
                     <div>
-                        <label asp-for="FirstName" class="form-label"></label>
-                        <input asp-for="FirstName" class="form-control" readonly/>
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <label asp-for="FirstName"></label>
+                        <input asp-for="FirstName" class="form-control" readonly />
+                        <span asp-validation-for="FirstName"></span>
                     </div>
                     <div>
-                        <label asp-for="LastName" class="form-label"></label>
-                        <input asp-for="LastName" class="form-control" readonly/>
-                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" readonly />
+                        <span asp-validation-for="LastName"></span>
                     </div>
                     <div>
-                        <label asp-for="BirthDate" class="form-label"></label>
-                        <input asp-for="BirthDate" class="form-control" readonly/>
-                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        <label asp-for="BirthDate"></label>
+                        <input asp-for="BirthDate" class="form-control" readonly />
+                        <span asp-validation-for="BirthDate"></span>
                     </div>
                     <div>
-                        <label asp-for="UserName" class="form-label"></label>
-                        <input asp-for="UserName" class="form-control" readonly/>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <label asp-for="UserName"></label>
+                        <input asp-for="UserName" class="form-control" readonly />
+                        <span asp-validation-for="UserName"></span>
                     </div>
                     <div>
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control"/>
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email"></span>
                     </div>
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-dark d-block" asp-action="ChangePassword" asp-route-id="@Model.Id">Şifre Değiştir</a>
                     <button type="submit" class="btn btn-outline-success w-100 my-2">Kaydet</button>
-                    <a class="btn btn-outline-primary d-block" asp-controller="Home" asp-action="Index">Anasayfaya Dön</a>
+                    <a class="btn btn-outline-primary d-block" asp-action="Index" asp-controller="Home">Anasayfaya Dön</a>
                 </div>
             </form>
         </div>

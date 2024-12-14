@@ -47,10 +47,19 @@
                             BilgeAdam Akademi
                         </a>
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Anasayfa</a></li>
+                            <li><a asp-controller="Home" asp-action="Index" class="active">Anasayfa</a></li>
                             <li class="scroll-to-section"><a href="#apply">Eğitimler</a></li>
                             <li class="scroll-to-section"><a href="#courses">Kurslar</a></li>
                             <li class="scroll-to-section"><a href="#contact">İletişim</a></li>
+                            @if (User.Identity != null && !User.Identity.IsAuthenticated)
+                            {
+                                <li class=""><a asp-controller="Account" asp-action="Login">Giriş Yap</a></li>
+                            }
+                            else
+                            {
+                                <li class=""><a asp-controller="Account" asp-action="Logout">Çıkış Yap</a></li>
+                            }
+
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>

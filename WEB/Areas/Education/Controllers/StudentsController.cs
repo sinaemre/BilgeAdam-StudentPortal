@@ -9,6 +9,7 @@ using DTO.Concrete.StudentDTO;
 using DTO.Concrete.TeacherDTO;
 using DTO.Concrete.UserDTO;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,7 @@ namespace WEB.Areas.Education.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> Index()
         {
             var students = await _studentManager.GetFilteredListAsync
@@ -71,6 +73,7 @@ namespace WEB.Areas.Education.Controllers
             return View(students);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> CreateStudent()
         {
             var model = new CreateStudentVM
@@ -81,6 +84,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateStudent(CreateStudentVM model)
         {
@@ -96,7 +100,7 @@ namespace WEB.Areas.Education.Controllers
                     if (resultRole)
                     {
                         string imageName = "noimage.png";
-                        
+
                         if (model.Image != null)
                         {
                             var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "img");
@@ -106,7 +110,7 @@ namespace WEB.Areas.Education.Controllers
                             await model.Image.CopyToAsync(fileStream);
                             fileStream.Close();
                         }
-                        
+
                         var dto = _mapper.Map<CreateStudentDTO>(model);
                         dto.ImagePath = imageName;
                         var result = await _studentManager.AddAsync(dto);
@@ -121,7 +125,7 @@ namespace WEB.Areas.Education.Controllers
                     TempData["Error"] = "Öğrenci role kaydedilemedi!";
                     return View(model);
                 }
-              
+
                 TempData["Error"] = "Öğrenci sisteme kaydedilemedi!";
                 return View(model);
             }
@@ -129,6 +133,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> UpdateStudent(string id)
         {
             Guid entityId;
@@ -156,6 +161,7 @@ namespace WEB.Areas.Education.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateStudent(UpdateStudentVM model)
         {
@@ -204,6 +210,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> DeleteStudent(string id)
         {
             Guid entityId;
@@ -231,32 +238,128 @@ namespace WEB.Areas.Education.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin, customerManager, student, teacher")]
+        public async Task<IActionResult> StudentDetail(string studentId = null)
+        {
+            if (HttpContext.User.Identity != null && HttpContext.User.Identity.IsAuthenticated)
+            {
+                string studentEmail = "";
+                if (HttpContext.User.IsInRole("student"))
+                {
+                    var studentUser = await _userManager.FindUserAsync<GetUserDTO>(HttpContext.User);
+                    studentEmail = studentUser.Email;
+                }
+                else if (HttpContext.User.IsInRole("teacher") && studentId != null)
+                {
+                    Guid entityId;
+                    var guidResult = Guid.TryParse(studentId, out entityId);
+                    if (!guidResult)
+                    {
+                        TempData["Error"] = "Öğrenci bulunamadı!";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    var student = await _studentManager.GetByIdAsync<StudentDetailForProjectDTO>((Guid)entityId);
+                    studentEmail = student.Email;
+                }
 
+                var studentDtos = await _studentManager.GetFilteredListAsync
+                        (
+                            select: x => new StudentDetailForProjectVM
+                            {
+                                Id = x.Id,
+                                FirstName = x.FirstName,
+                                LastName = x.LastName,
+                                BirthDate = x.BirthDate,
+                                Email = x.Email,
+                                Exam1 = x.Exam1,
+                                Exam2 = x.Exam2,
+                                ProjectExam = x.ProjectExam,
+                                Average = x.Average,
+                                StudentStatus = x.StudentStatus,
+                                CourseName = x.Classroom.Teacher.Course.Name,
+                                ClassroomName = x.Classroom.Name,
+                                ClassroomId = x.ClassroomId,
+                                ImagePath = x.ImagePath,
+                                ProjectPath = x.ProjectPath,
+                                ProjectName = x.ProjectName
+                            },
+                            where: x => x.Email == studentEmail,
+                            join: x => x.Include(z => z.Classroom).ThenInclude(z => z.Teacher).ThenInclude(z => z.Course)
+                        );
+                var studentDto = studentDtos.FirstOrDefault();
 
+                if (studentDto != null)
+                {
+                    var model = _mapper.Map<StudentDetailForProjectVM>(studentDto);
+                    return View(model);
+                }
+                TempData["Error"] = "Öğrenci bulunamadı!";
+            }
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
 
+        [Authorize(Roles = "admin, customerManager, student")]
+        public async Task<IActionResult> SendProject(StudentDetailForProjectVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.Project != null)
+                {
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "projects");
+                    string fileName = $"{Guid.NewGuid()}_{model.FirstName}_{model.LastName}_{model.Project.FileName}";
+                    string filePath = Path.Combine(uploadDir, fileName);
 
+                    FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.Project.CopyToAsync(fileStream);
+                    fileStream.Close();
 
+                    var dto = _mapper.Map<StudentDetailForProjectDTO>(model);
+                    dto.ProjectPath = fileName;
+                    var result = await _studentManager.UpdateAsync(dto);
 
+                    if (result)
+                    {
+                        TempData["Success"] = "Proje yüklenmiştir!";
+                        return RedirectToAction(nameof(StudentDetail));
+                    }
+                    TempData["Error"] = "Proje yüklenememiştir!";
+                    return RedirectToAction(nameof(StudentDetail));
+                }
+                return RedirectToAction(nameof(StudentDetail));
+            }
+            TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
+            return RedirectToAction(nameof(StudentDetail));
+        }
 
+        [Authorize(Roles = "admin, customerManager, teacher")]
+        public async Task<IActionResult> UpdateStudentExams(StudentDetailForProjectVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var dto = _mapper.Map<StudentDetailForProjectDTO>(model);
+                var result = await _studentManager.UpdateAsync(dto);
 
+                if (result)
+                {
+                    TempData["Success"] = "Notlar girilmiştir!";
+                    return RedirectToAction(nameof(StudentDetail), new { studentId = model.Id.ToString() });
+                }
+                TempData["Error"] = "Proje yüklenememiştir!";
+                return RedirectToAction(nameof(StudentDetail));
+            }
+            TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
+            return RedirectToAction(nameof(StudentDetail));
+        }
 
+        [Authorize(Roles = "admin, customerManager, student, teacher")]
+        public FileResult Download(string filePath)
+        {
+            string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "projects/");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(uploadDir + filePath);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            //System.Net.Mime.MediaTypeNames.Application.Octet => Gelen dosyanın hengi türde olduğunu bilmediğimiz zaman kullanılır.
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
+        }
 
         private async Task<SelectList> GetCourses(Guid? classroomId)
         {
@@ -272,7 +375,6 @@ namespace WEB.Areas.Education.Controllers
             var coursesVM = _mapper.Map<List<GetCourseForSelectListVM>>(courses);
             return new SelectList(coursesVM, "Id", "Info");
         }
-
         private async Task<SelectList> GetClassrooms(Guid? classroomId)
         {
             var classrooms = await _classroomManager.GetByDefaultsAsync<GetClassroomForSelectListDTO>(x => x.Status != Status.Passive);
@@ -280,7 +382,6 @@ namespace WEB.Areas.Education.Controllers
             var selectedClassroom = await _classroomManager.GetByIdAsync<GetClassroomForSelectListDTO>((Guid)classroomId);
             return new SelectList(classroomsVM, "Id", "Name", selectedClassroom);
         }
-
         private async Task<SelectList> GetTeachers(Guid? classroomId)
         {
             var teacherId = await _teacherManager.GetTeacherIdByClassroomIdAsync((Guid)classroomId);

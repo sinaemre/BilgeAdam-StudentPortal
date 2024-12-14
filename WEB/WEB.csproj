@@ -28,6 +28,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Education\Data\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\projects\" />
   </ItemGroup>
 
 </Project>

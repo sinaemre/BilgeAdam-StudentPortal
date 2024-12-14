@@ -27,58 +27,92 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin Paneli</div>
+                @if (User.IsInRole("admin"))
+                {
+                    <div class="sidebar-brand-text mx-3">Admin Paneli</div>
+                }
+                else
+                {
+                    <div class="sidebar-brand-text mx-3">Eğitim Paneli</div>
+
+                }
             </a>
             <hr class="sidebar-divider my-0">
-            
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Admin" asp-controller="Roles" asp-action="Index">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Roller</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Admin" asp-controller="CustomerManagers" asp-action="Index">
-                    <i class="fa-solid fa-tty"></i>
-                    <span>Müşteri Yöneticileri</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Education" asp-controller="Teachers" asp-action="Index">
-                    <i class="fa-solid fa-person-chalkboard"></i>
-                    <span>Eğitmenler</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Education" asp-controller="Courses" asp-action="Index">
-                    <i class="fa-solid fa-school"></i>
-                    <span>Kurslar</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Education" asp-controller="Students" asp-action="Index">
-                    <i class="fa-solid fa-user-graduate"></i>
-                    <span>Öğrenciler</span>
-                </a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item active">
-                <a class="nav-link" asp-area="Education" asp-controller="Classrooms" asp-action="Index">
-                    <i class="fa-solid fa-door-open"></i>
-                    <span>Sınıflar</span>
-                </a>
-            </li>
+            @if (User.IsInRole("admin"))
+            {
+
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Roles" asp-action="Index">
+                        <i class="fa-solid fa-gear"></i>
+                        <span>Roller</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="CustomerManagers" asp-action="Index">
+                        <i class="fa-solid fa-tty"></i>
+                        <span>Müşteri Yöneticileri</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("customerManager") || User.IsInRole("admin"))
+            {
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Teachers" asp-action="Index">
+                        <i class="fa-solid fa-person-chalkboard"></i>
+                        <span>Eğitmenler</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Courses" asp-action="Index">
+                        <i class="fa-solid fa-school"></i>
+                        <span>Kurslar</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Students" asp-action="Index">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>Öğrenciler</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Classrooms" asp-action="Index">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Sınıflar</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("teacher"))
+            {
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Classrooms" asp-action="GetClassroomsForTeacherByTeacherId">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Sınıflarım</span>
+                    </a>
+                </li>
+            }
+            @if (User.IsInRole("student"))
+            {
+                <hr class="sidebar-divider">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Education" asp-controller="Students" asp-action="StudentDetail">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span>Notlarım</span>
+                    </a>
+                </li>
+            }
         </ul>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -86,7 +120,7 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    @if(ViewContext.HttpContext.Request.Path.ToString().Contains("/Admin/Dashboard"))
+                    @if (ViewContext.HttpContext.Request.Path.ToString().Contains("/Admin/Dashboard"))
                     {
                         <ul class="navbar-nav admin-header">Admin Paneline Hoşgeldiniz!</ul>
                     }
@@ -102,18 +136,18 @@
                                 @if (User.IsInRole("admin"))
                                 {
                                     <img class="img-profile rounded-circle"
-                                    src="~/img/admin.webp">
+                                         src="~/img/admin.webp">
                                 }
                                 else if (User.IsInRole("student"))
                                 {
-                                   
+
                                     <img class="img-profile rounded-circle"
-                                    src="~/img/@studentImageURL">
+                                         src="~/img/@studentImageURL">
                                 }
                                 else if (User.IsInRole("teacher"))
                                 {
                                     <img class="img-profile rounded-circle"
-                                    src="~/img/teacher.webp">
+                                         src="~/img/teacher.webp">
                                 }
                                 else if (User.IsInRole("customerManager"))
                                 {
@@ -149,7 +183,6 @@
                     {
                         <div class="alert alert-danger notification">@TempData["Error"]</div>
                     }
-
                     @RenderBody()
 
                 </div>
@@ -166,7 +199,7 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-    
+
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">

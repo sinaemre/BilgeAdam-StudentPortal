@@ -3,34 +3,68 @@
 }
 @model LoginVM
 
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Giriş Yap</h3>
+<video autoplay muted loop id="bg-video" style="max-height:100%;">
+    <source src="~/assets/images/course-video.mp4" type="video/mp4" />
+</video>
+
+<div class="video-overlay header-text position-absolute ">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Login 6 - Bootstrap Brain Component -->
+                <section class="p-3 p-md-4 p-xl-5" style="margin-top:100px">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-9 col-lg-7 col-xl-6 col-xxl-5">
+                                <div style="background:transparent;">
+                                    <div class="p-3 p-md-4 p-xl-5">
+
+                                        <form asp-action="Login">
+                                            <div class="row gy-3 overflow-hidden">
+                                                <div class="col-12">
+                                                    <div class="form-floating mb-3">
+                                                        <input class="form-control" style="background:transparent; color:white" asp-for="UserName">
+                                                        <label asp-for="UserName" style="background:transparent; color:black" class="form-label">Kullanıcı Adı</label>
+                                                        <span asp-validation-for="UserName" style="background:transparent;" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="password" asp-for="Password" style="background:transparent; color:white" class="form-control">
+                                                        <label asp-for="Password" style="background:transparent; color:black" class="form-label">Şifre</label>
+                                                        <span asp-validation-for="Password" style="background:transparent;" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-grid">
+                                                        <button class="btn bsb-btn-2xl btn-outline-success" type="submit">Giriş Yap</button>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-3 flex-column">
+                                                    <a href="#!" class="btn bsb-btn-xl btn-outline-danger">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                                            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                                        </svg>
+                                                        <span class="ms-2 fs-6 text-uppercase">Google ile Giriş Yap</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="row mt-2">
+                                            <div class="col-12">
+                                                <div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end">
+                                                    <a asp-action="ForgotPassword" class="link-secondary text-decoration-none">Şifremi Unuttum</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <form asp-action="Login">
-                <div class="card-body">
-                    <div>
-                        <label asp-for="UserName" class="form-label"></label>
-                        <input asp-for="UserName" class="form-control" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                    <div>
-                        <label asp-for="Password" class="form-label"></label>
-                        <input type="password" asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="card-footer d-flex flex-column">
-                    <button type="submit" class="btn btn-outline-success w-100 my-2">Giriş Yap</button>
-                    <a class="btn btn-outline-dark d-block" asp-action="ForgotPassword">Şifremi Unuttum</a>
-                </div>
-            </form>
         </div>
     </div>
 </div>
-
-
-

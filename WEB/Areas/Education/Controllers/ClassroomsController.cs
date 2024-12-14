@@ -5,11 +5,14 @@ using Business.Manager.Interface;
 using DTO.Concrete.ClassroomDTO;
 using DTO.Concrete.CourseDTO;
 using DTO.Concrete.TeacherDTO;
+using DTO.Concrete.UserDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WEB.Areas.Education.Models.ViewModels.Classrooms;
 using WEB.Areas.Education.Models.ViewModels.Courses;
+using WEB.Areas.Education.Models.ViewModels.Students;
 using WEB.Areas.Education.Models.ViewModels.Teachers;
 
 namespace WEB.Areas.Education.Controllers
@@ -22,16 +25,18 @@ namespace WEB.Areas.Education.Controllers
         private readonly ITeacherManager _teacherManager;
         private readonly ICourseManager _courseManager;
         private readonly IStudentManager _studentManager;
+        private readonly IUserManager _userManager;
 
-        public ClassroomsController(IClassroomManager classroomManager, IMapper mapper, ITeacherManager teacherManager, ICourseManager courseManager, IStudentManager studentManager)
+        public ClassroomsController(IClassroomManager classroomManager, IMapper mapper, ITeacherManager teacherManager, ICourseManager courseManager, IStudentManager studentManager, IUserManager userManager)
         {
             _classroomManager = classroomManager;
             _mapper = mapper;
             _teacherManager = teacherManager;
             _courseManager = courseManager;
             _studentManager = studentManager;
+            _userManager = userManager;
         }
-
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> Index()
         {
             var classrooms = await _classroomManager.GetFilteredListAsync
@@ -54,9 +59,11 @@ namespace WEB.Areas.Education.Controllers
                     orderBy: x => x.OrderByDescending(z => z.CreatedDate),
                     join: x => x.Include(z => z.Teacher).ThenInclude(z => z.Course).Include(z => z.Students)
                 );
+
             return View(classrooms);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> CreateClassroom()
         {
             var model = new CreateClassroomVM
@@ -66,6 +73,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateClassroom(CreateClassroomVM model)
         {
@@ -88,6 +96,7 @@ namespace WEB.Areas.Education.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> UpdateClassroom(string id)
         {
             Guid entityId;
@@ -111,6 +120,7 @@ namespace WEB.Areas.Education.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateClassroom(UpdateClassroomVM model)
         {
@@ -136,6 +146,7 @@ namespace WEB.Areas.Education.Controllers
 
         }
 
+        [Authorize(Roles = "admin, customerManager")]
         public async Task<IActionResult> DeleteClassroom(string id)
         {
             Guid entityId;
@@ -147,7 +158,7 @@ namespace WEB.Areas.Education.Controllers
             }
 
             var dto = await _classroomManager.GetByIdAsync<UpdateClassroomDTO>(entityId);
-            
+
             if (dto != null)
             {
                 var checkStudents = await _studentManager.AnyAsync(x => x.Status != Status.Passive && x.ClassroomId == entityId);
@@ -170,6 +181,76 @@ namespace WEB.Areas.Education.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "teacher")]
+        public async Task<IActionResult> GetClassroomsForTeacherByTeacherId()
+        {
+            var userDTO = await _userManager.FindUserAsync<GetUserDTO>(HttpContext.User);
+            var teacher = await _teacherManager.GetByDefaultAsync<GetTeacherForSelectListDTO>(x => x.Email == userDTO.Email);
+            var classrooms = await _classroomManager.GetFilteredListAsync
+                (
+                    select: x => new GetClassroomVM
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        CourseName = x.Teacher.Course.Name,
+                        Description = x.Description,
+                        StartDate = x.StartDate != null ? x.StartDate.Value.ToShortDateString() : " - ",
+                        EndDate = x.EndDate != null ? x.EndDate.Value.ToShortDateString() : " - ",
+                        TeacherName = x.Teacher.FirstName + " " + x.Teacher.LastName,
+                        ClassroomSize = x.Students.Where(x => x.Status != Status.Passive).ToList().Count,
+                        CreatedDate = x.CreatedDate,
+                        UpdatedDate = x.UpdatedDate != null ? x.UpdatedDate.Value.ToString("d.M.yyyy HH:mm:ss") : " - ",
+                        Status = x.Status == Status.Active ? "Aktif" : "Güncellenmiş"
+                    },
+                    where: x => x.Status != Status.Passive && x.TeacherId == teacher.Id,
+                    orderBy: x => x.OrderByDescending(z => z.CreatedDate),
+                    join: x => x.Include(z => z.Teacher).ThenInclude(z => z.Course).Include(z => z.Students)
+                );
+            return View(classrooms);
+        }
+
+        [Authorize(Roles = "teacher")]
+        public async Task<IActionResult> GetStudentsByClassroomId(string classroomId)
+        {
+            Guid entityId;
+            var guidResult = Guid.TryParse(classroomId, out entityId);
+            if (!guidResult)
+            {
+                TempData["Error"] = "Sınıf bulunamadı!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            var students = await _studentManager.GetFilteredListAsync
+               (
+                  select: x => new StudentDetailForProjectVM
+                  {
+                      Id = x.Id,
+                      FirstName = x.FirstName,
+                      LastName = x.LastName,
+                      BirthDate = x.BirthDate,
+                      Email = x.Email,
+                      Exam1 = x.Exam1,
+                      Exam2 = x.Exam2,
+                      ProjectExam = x.ProjectExam,
+                      Average = x.Average,
+                      StudentStatus = x.StudentStatus,
+                      CourseName = x.Classroom.Teacher.Course.Name,
+                      ClassroomName = x.Classroom.Name,
+                      ClassroomId = x.ClassroomId,
+                      ImagePath = x.ImagePath,
+                      ProjectPath = x.ProjectPath,
+                      ProjectName = x.ProjectName
+                  },
+                   where: x => x.Status != Status.Passive && x.ClassroomId == entityId,
+                   orderBy: x => x.OrderByDescending(z => z.CreatedDate),
+                   join: x => x.Include(z => z.Classroom).ThenInclude(z => z.Teacher).ThenInclude(x => x.Course)
+               );
+
+            return View(students);
+
+        }
+
+        [Authorize(Roles = "teacher")]
         public async Task<IActionResult> GetClassroomsByTeacherId(string teacherId)
         {
             Guid entityId;
@@ -192,7 +273,7 @@ namespace WEB.Areas.Education.Controllers
             var selectedCourse = await _courseManager.GetByIdAsync<GetCourseForSelectListDTO>((Guid)courseId);
             return new SelectList(coursesVM, "Id", "Info", selectedCourse);
         }
-        
+
         private async Task<SelectList> GetCourses()
         {
             var courses = await _courseManager.GetByDefaultsAsync<GetCourseForSelectListDTO>(x => x.Status != Status.Passive);

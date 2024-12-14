@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Manager.Interface;
 using DTO.Concrete.RoleDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Areas.Admin.Models.ViewModels.Roles;
 using WEB.Areas.Admin.Models.ViewModels.Users;
@@ -8,6 +9,7 @@ using WEB.Areas.Admin.Models.ViewModels.Users;
 namespace WEB.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
         private readonly IRoleManager _roleManager;
